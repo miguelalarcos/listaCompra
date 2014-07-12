@@ -1,0 +1,1 @@
+cuando una lista no tiene elementos, no se muestra en working-list
