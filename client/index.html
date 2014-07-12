@@ -1,0 +1,42 @@
+<template name="login">
+    {{>loginButtons}}
+    Please Login...
+</template>
+
+<template name="home">
+    {{>loginButtons}}
+    Home!
+</template>
+
+<template name="historic">
+    {{this}}
+</template>
+
+<template name="lista">
+    {{#each listas}}
+        <div>{{tag}}</div>
+    {{/each}}
+</template>
+
+<template name="workingList">
+  {{#each tags}}
+    <h1 tag="{{this}}">{{this}}</h1>
+    <table>
+        <tr>
+            <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
+        </tr>
+    {{#each ../items this}}
+        <tr class="take {{isTaken _id}}" _id={{_id}}>
+            <td>{{item}}</td><td>{{quantity}}</td><td>{{price}}</td><td>{{market}}</td><td class="glyphicon glyphicon-pencil"></td>
+        </tr>
+    {{/each}}
+        <tr>
+        <td><input tag="{{this}}" name='item' class="text" type="text"></td>
+        <td><input tag="{{this}}" name='quantity' class='number' type="text"></td>
+        <td><input tag="{{this}}" name='price' class='number' type="text"></td>
+        <td><input tag="{{this}}" name='market' class="text" type="text"></td>
+        <td><button tag="{{this}}" class="{{isVisible this}}">Añadir</button></td>
+        </tr>
+    </table>
+  {{/each}}
+</template>

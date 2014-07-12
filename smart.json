@@ -1,0 +1,9 @@
+{
+  "packages": {
+    "collection2": {},
+    "collection-hooks": {},
+    "moment": {},
+    "iron-router": {},
+    "bootstrap-3": {}
+  }
+}
