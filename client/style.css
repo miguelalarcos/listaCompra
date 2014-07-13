@@ -1,7 +1,7 @@
-.invisible {
-    display: none;
-}
-
 .taken {
     background-color: #ffff00;
+}
+
+.hand {
+    cursor: pointer;
 }

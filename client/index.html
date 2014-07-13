@@ -10,8 +10,8 @@
 <template name="HMenu">
     <a href="{{pathFor 'login'}}">Login</a>
     <a href="{{pathFor 'workingList'}}">Listas</a>
-    <a href="{{pathFor 'adminListas'}}">Administración</a>
     <a href="{{pathFor 'despensa'}}">Despensa</a>
+    <a href="{{pathFor 'adminListas'}}">Administración</a>
     <br>
 </template>
 
@@ -22,52 +22,15 @@
     <div><a href="{{pathFor 'despensa'}}">Mira qué tienes actualmente en tu despensa</a></div>
 </template>
 
-<template name="adminListas">
-    {{>HMenu}}
-    <table>
-    <tr>
-    <td>Nombre</td><td>Descripción</td><td>Invitados</td>
-    </tr>
-    {{#each listas}}
-    <tr>
-        <td class="tag">{{tag}}</td><td><input class="descripcion" type="text" value="{{description}}"></td><td><textarea class="mails">{{invited}}</textarea></td><button class="guardar-lista">Guardar</button>
-    </tr>
-    {{/each}}
-    </table>
-    <input class="input-nueva-lista" type="text"><button class="append-nueva-lista">Nueva</button>
-</template>
-
 <template name="workingList">
     {{>HMenu}}
-  <button class="almacenar {{BAlmacenarVisible}}">A la despensa</button>
-  {{#each tags}}
-    <h1 tag="{{this}}">{{this}}</h1><!--¿alguien utiliza tag aqui?-->
-    <table tag="{{this}}">
-        <tr>
-            <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
-        </tr>
-    {{#each ../items this}}
-        <tr class="take {{isTaken _id}}" _id={{_id}}>
-            <td>{{item}}</td><td>{{quantity}}</td><td>{{price}}</td><td>{{market}}</td>
-        </tr>
-        <span _id={{_id}} class="edit-item glyphicon glyphicon-pencil"></span>
-        <span _id={{_id}} class="remove-item glyphicon glyphicon-remove"></span>
-    {{/each}}
-        <tr>
-        <td><input tag="{{this}}" name='item' class="text" type="text"></td>
-        <td><input tag="{{this}}" name='quantity' class='number' type="text"></td>
-        <td><input tag="{{this}}" name='price' class='number' type="text"></td>
-        <td><input tag="{{this}}" name='market' class="text" type="text"></td>
-        <td><button tag="{{this}}" class="guardar {{isVisible this}}">Guardar</button></td>
-        </tr>
-    </table>
-  {{/each}}
+  <button class="almacenar">A la despensa</button>
+  {{>listas}}
 </template>
 
 <template name="despensa">
     {{>HMenu}}
-    <button class="consumir {{BConsumirVisible}}">Consumir</button>
-    {{#each items}}
-    <div class="take {{isTaken _id}}" _id={{_id}}>{{item}}</div>
-    {{/each}}
+    <button class="consumir">Consumir</button>
+    <button class="vaciar">Vaciar</button>
+    {{>listas}}
 </template>

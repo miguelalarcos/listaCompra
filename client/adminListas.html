@@ -1,0 +1,17 @@
+<template name="adminListas">
+    {{>HMenu}}
+    <table>
+        <tr>
+            <td>Nombre</td><td>Descripción</td><td>Invitados</td>
+        </tr>
+        {{#each listas}}
+        <tr>
+            <td class="tag">{{tag}}</td>
+            <td><input tag={{tag}} name="descripcion" type="text" value="{{description}}"></td>
+            <td><textarea tag={{tag}} name="mails">{{invited}}</textarea></td>
+            <button tag={{tag}} class="guardar-lista">Guardar</button>
+        </tr>
+        {{/each}}
+    </table>
+    <input class="input-nueva-lista" type="text"><button class="append-nueva-lista">Nueva</button>
+</template>

@@ -1,0 +1,27 @@
+<template name="listas">
+    {{#each tags}}
+    <h1 tag="{{this}}">{{this}}</h1><!--¿alguien utiliza tag aqui?-->
+    <table tag="{{this}}">
+        <tr>
+            <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
+        </tr>
+        {{#each ../items this}}
+        <tr class="{{isTaken _id}}">
+            <td class="take" _id="{{_id}}">{{item}}</td><td>{{quantity}}</td><td>{{price}}</td><td>{{market}}</td>
+
+        <span _id={{_id}} class="hand edit-item glyphicon glyphicon-pencil"></span>
+        <span> </span>
+        <span _id={{_id}} class="hand remove-item glyphicon glyphicon-remove"></span>
+        </tr>
+        {{/each}}
+        <tr>
+            <td><input tag="{{this}}" name='item' class="text" type="text"></td>
+            <td><input tag="{{this}}" name='quantity' class='number' type="text"></td>
+            <td><input tag="{{this}}" name='price' class='number' type="text"></td>
+            <td><input tag="{{this}}" name='market' class="text" type="text"></td>
+            <td><button tag="{{this}}" class="guardar">Guardar</button></td>
+            <td><input tag="{{this}}" name='_id' class="text" type="hidden"></td>
+        </tr>
+    </table>
+    {{/each}}
+</template>
