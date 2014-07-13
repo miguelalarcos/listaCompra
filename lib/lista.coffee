@@ -1,8 +1,8 @@
 @lista = new Meteor.Collection "Lista",
     schema:
-        userId:
-            type: String
-            optional: true
+        #userId:
+        #    type: String
+        #    optional: true
         tag:
             type: String
         item:

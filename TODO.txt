@@ -1,1 +1,2 @@
-cuando una lista no tiene elementos, no se muestra en working-list
+redirect a home tras login
+barra horizontal superior de menu

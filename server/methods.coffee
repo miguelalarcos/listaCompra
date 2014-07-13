@@ -13,10 +13,17 @@ Meteor.methods
             tags.update({_id:tag._id}, {$set: {description: doc.descripcion, invited: doc.mails}})
     consumir: ->
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
-        lista.update({taken:true, stored: true, tag : {$in: tas}}, {$set: {stored: false, taken:false}})
+        lista.update({taken:true, stored: true, tag : {$in: tas}}, {$set: {stored: false, taken:false}}, {multi:true})
     almacenar: ->
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
-        lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false}})
+        for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
+            delete doc._id
+            delete doc.taken
+            delete doc.stored
+            doc.timestamp = moment().unix()
+            console.log doc.timestamp
+            historic.insert(doc)
+        lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false}}, {multi:true})
     take: (_id)->
         userId = Meteor.userId()
         item = lista.findOne(_id)

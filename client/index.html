@@ -1,14 +1,29 @@
 <template name="login">
     {{>loginButtons}}
-    Please Login...
+    {{#if currentUser}}
+        Now you are logged in you can go <a href="{{pathFor 'home'}}">home</a> and play with your lists!
+    {{else}}
+        Please Login...
+    {{/if}}
+</template>
+
+<template name="HMenu">
+    <a href="{{pathFor 'login'}}">Login</a>
+    <a href="{{pathFor 'workingList'}}">Listas</a>
+    <a href="{{pathFor 'adminListas'}}">Administración</a>
+    <a href="{{pathFor 'despensa'}}">Despensa</a>
+    <br>
 </template>
 
 <template name="home">
-    {{>loginButtons}}
     Home!
+    <div><a href="{{pathFor 'workingList'}}">Tus listas y las listas a las que estás invitado</a></div>
+    <div><a href="{{pathFor 'adminListas'}}">Administra tus listas, crea nuevas e invita a tus amigos</a></div>
+    <div><a href="{{pathFor 'despensa'}}">Mira qué tienes actualmente en tu despensa</a></div>
 </template>
 
 <template name="adminListas">
+    {{>HMenu}}
     <table>
     <tr>
     <td>Nombre</td><td>Descripción</td><td>Invitados</td>
@@ -23,6 +38,7 @@
 </template>
 
 <template name="workingList">
+    {{>HMenu}}
   <button class="almacenar {{BAlmacenarVisible}}">A la despensa</button>
   {{#each tags}}
     <h1 tag="{{this}}">{{this}}</h1><!--¿alguien utiliza tag aqui?-->
@@ -49,6 +65,7 @@
 </template>
 
 <template name="despensa">
+    {{>HMenu}}
     <button class="consumir {{BConsumirVisible}}">Consumir</button>
     {{#each items}}
     <div class="take {{isTaken _id}}" _id={{_id}}>{{item}}</div>
