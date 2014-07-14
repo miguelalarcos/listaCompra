@@ -14,5 +14,8 @@ Router.map ->
     @route 'adminListas',
         path: '/admin-listas'
         controller: @AdminListasController
+    @route 'historic',
+        path: '/historic'
+        controller: @HistoricController
 
 

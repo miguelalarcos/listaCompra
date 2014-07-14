@@ -11,9 +11,6 @@
             type: Number
             decimal: true
             optional: true
-        #userId:
-        #    type: String
-        #    optional: true
         timestamp:
             type: Number
             decimal: true

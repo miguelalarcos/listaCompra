@@ -2,16 +2,21 @@
     {{>HMenu}}
     <table>
         <tr>
-            <td>Nombre</td><td>Descripción</td><td>Invitados</td>
+            <td>Nombre</td><td>Descripción</td><td>Invitados</td><td>Activa</td>
         </tr>
         {{#each listas}}
         <tr>
             <td class="tag">{{tag}}</td>
             <td><input tag={{tag}} name="descripcion" type="text" value="{{description}}"></td>
             <td><textarea tag={{tag}} name="mails">{{invited}}</textarea></td>
+            <td><input type="checkbox" tag="{{tag}}" name="active" class="check" {{checked active}}></td>
             <button tag={{tag}} class="guardar-lista">Guardar</button>
         </tr>
         {{/each}}
     </table>
     <input class="input-nueva-lista" type="text"><button class="append-nueva-lista">Nueva</button>
+    <h3>Invited</h3>
+    {{#each invited}}
+        <span class="{{isBanned tag}}">{{tag}}</span> <span tag={{tag}} class="ban glyphicon glyphicon-ban-circle"></span>
+    {{/each}}
 </template>

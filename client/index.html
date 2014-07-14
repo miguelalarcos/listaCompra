@@ -11,6 +11,7 @@
     <a href="{{pathFor 'login'}}">Login</a>
     <a href="{{pathFor 'workingList'}}">Listas</a>
     <a href="{{pathFor 'despensa'}}">Despensa</a>
+    <a href="{{pathFor 'historic'}}">Histórico</a>
     <a href="{{pathFor 'adminListas'}}">Administración</a>
     <br>
 </template>
@@ -23,7 +24,7 @@
 </template>
 
 <template name="workingList">
-    {{>HMenu}}
+  {{>HMenu}}
   <button class="almacenar">A la despensa</button>
   {{>listas}}
 </template>

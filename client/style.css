@@ -5,3 +5,15 @@
 .hand {
     cursor: pointer;
 }
+
+.five_chars{
+    width: 5em;
+}
+
+.banned {
+    background-color: red;
+}
+
+.head-lista {
+    background-color: green;
+}

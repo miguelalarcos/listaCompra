@@ -1,4 +1,7 @@
 Template.listas.events
+    'keyup input': (e,t)->
+        if e.keyCode == 13
+            $('.guardar').click()
     'click td.take':(e,t)->
         _id = $(e.target).attr('_id')
         Meteor.call('take', _id)
@@ -16,11 +19,12 @@ Template.listas.events
         $("input[tag='"+tag+"']").each (index, el)->
             el=$(el)
             item[el.attr('name')] = el.val()
-        Meteor.call "GuardarItem", item
-        console.log item
-        $("input[tag='"+tag+"']").each (index, el)->
-            if $(el).attr('name') != 'market'
-                $(el).val("")
+        if item.item
+            Meteor.call "GuardarItem", item
+            console.log item
+            $("input[tag='"+tag+"']").each (index, el)->
+                if $(el).attr('name') != 'market'
+                    $(el).val("")
 
     'click .remove-item': (e,t)->
         _id = $(e.target).attr('_id')

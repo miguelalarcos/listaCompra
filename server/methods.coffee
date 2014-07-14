@@ -6,12 +6,22 @@ email = (userId)->
 
 is_owner_or_invited = (userId)->
   {$or : [{email: email(userId)}, {invited: email(userId)}]}
+
 Meteor.methods
+    block: (tag)->
+        tag = tags.findOne(tag: tag, invited: email(Meteor.userId()))
+        if tag
+            mail = email(Meteor.userId())
+            if mail in tag.blocked
+                console.log mail, tag.blocked
+                tags.update({_id:tag._id}, {$pull: {blocked: mail}})
+            else
+                tags.update({_id:tag._id}, {$push : {blocked: mail}})
     guardarLista: (doc)->
         tag = tags.findOne(tag:doc.tag, email:email(Meteor.userId()))
         if tag
-            tags.update({_id:tag._id}, {$set: {description: doc.descripcion, invited: doc.mails}})
-            console.log tags.findOne({_id: tag._id})
+            console.log '--->', doc.active
+            tags.update({_id:tag._id}, {$set: {active: doc.active, description: doc.descripcion, invited: doc.mails}})
     vaciar: ->
       tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
       for doc in lista.find({taken:true, stored: true, tag : {$in: tas}}).fetch()

@@ -11,5 +11,11 @@
         description:
             type: String
             optional: true
+        blocked:
+            type: [String]
+            optional: true
+        active:
+            type: Boolean
+            optional: true
 
 
