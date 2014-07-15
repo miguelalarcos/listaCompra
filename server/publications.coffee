@@ -10,7 +10,8 @@ email = (userId)->
     Meteor.users.findOne(_id: userId).emails[0].address
 
 is_owner_or_invited = (userId)->
-    {$or : [{email: email(userId)}, {invited: email(userId)}]}
+    mail = email(userId)
+    {$or : [{email: mail}, {invited: mail}]}
 
 not_blocked = (userId) ->
     {blocked: {$ne: email(userId)}}

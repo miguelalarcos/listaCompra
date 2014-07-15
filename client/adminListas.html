@@ -6,11 +6,12 @@
         </tr>
         {{#each listas}}
         <tr>
-            <td class="tag">{{tag}}</td>
-            <td><input tag={{tag}} name="descripcion" type="text" value="{{description}}"></td>
-            <td><textarea tag={{tag}} name="mails">{{invited}}</textarea></td>
-            <td><input type="checkbox" tag="{{tag}}" name="active" class="check" {{checked active}}></td>
-            <button tag={{tag}} class="guardar-lista">Guardar</button>
+            <td class="mtag">{{tag}}</td>
+            <td><input formId={{tag}} name="descripcion" type="text" value="{{description}}"></td>
+            <td><textarea formId={{tag}} name="mails">{{invited}}</textarea></td>
+            <!--<td>{{> xautocomplete formId=this.tag name='mails2' tags=this.tag call='dummy' strict='false'}}</td>-->
+            <td><input type="checkbox" formId="{{tag}}" name="active" class="check" {{checked active}}></td>
+            <button formId={{tag}} class="guardar-lista">Guardar</button>
         </tr>
         {{/each}}
     </table>

@@ -1,7 +1,6 @@
 tags = @tags
 lista = @lista
 
-
 class @WorkingListController extends @LoginController
   waitOn: ->  [Meteor.subscribe('items'), Meteor.subscribe('accesible_list')]
   data: ->

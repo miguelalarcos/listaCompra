@@ -9,9 +9,9 @@ class @AdminListasController extends @LoginController
 
 Template.adminListas.events
   'click .guardar-lista': (e,t)->
-        tag = $(e.target).attr('tag')
-        doc = {tag: tag}
-        $("input[tag='"+tag+"']").each (index, el)->
+        formId = $(e.target).attr('formId')
+        doc = {tag: formId}
+        $("input[formId='"+formId+"']").each (index, el)->
             el=$(el)
             if el.hasClass('check')
                 doc[el.attr('name')] = el.is(':checked')

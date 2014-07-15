@@ -1,3 +1,7 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
 <template name="login">
     {{>loginButtons}}
     {{#if currentUser}}
@@ -34,4 +38,8 @@
     <button class="consumir">Consumir</button>
     <button class="vaciar">Vaciar</button>
     {{>listas}}
+</template>
+
+<template name="loading">
+    cargando...
 </template>

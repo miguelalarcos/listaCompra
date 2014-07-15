@@ -6,9 +6,9 @@
 standard-app-packages
 coffeescript
 collection2
-collection-hooks
 moment
 iron-router
 accounts-password
 accounts-ui
 bootstrap-3
+iron-router-progress
