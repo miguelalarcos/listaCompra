@@ -1,5 +1,5 @@
 Template.listas.events
-    'keyup input': (e,t)->
+    'keyup input:not([nested])': (e,t)->
         if e.keyCode == 13
             $('.guardar').click()
     'click td.take':(e,t)->
@@ -42,5 +42,4 @@ Template.listas.rendered = ->
 
 Deps.autorun ->
     item = Session.get 'item-selected'
-    console.log 'selected2,', item
     Meteor.call "GuardarItem", item

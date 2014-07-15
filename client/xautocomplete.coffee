@@ -22,8 +22,7 @@ Template.xautocomplete.helpers
         local_tags.find({tag:tag})
     items: (call, tag,  name) -> # the items that will be shown in the popover
         query = Session.get('xquery')
-
-        if name + '#' + tag == current_input
+        if name == current_input
             if query != ''
                 Meteor.call call, query, (error, result)->
                     local_items.remove({})
@@ -74,6 +73,8 @@ Template.xautocomplete.events
             else
                 selected = local_items.findOne selected: 'selected'
                 if selected
+                    selected.doc.tag = t.data.tag
+                    delete selected.doc._id
                     Session.set "item-selected", selected.doc
             # close popover
             local_items.remove({})
@@ -81,7 +82,7 @@ Template.xautocomplete.events
             index = -1
         else
             Session.set 'xquery', $(e.target).val()
-            current_input = $(e.target).attr('name')+ '#' + $(e.target).attr('tag')
+            current_input = $(e.target).attr('name')
     'click .xclose':(e,t)->
         val = $(e.target).attr('value')
         local_tags.remove({tag: t.data.tag, value:val})

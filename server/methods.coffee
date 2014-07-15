@@ -90,5 +90,6 @@ Meteor.methods
             lista.remove(_id)
     getItems: (query)->
         _item_.find({price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {limit: 10, sort: {price: +1}} ).fetch()
+
     dummy: -> []
 
