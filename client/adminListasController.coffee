@@ -1,7 +1,7 @@
 tags = @tags
 
 class @AdminListasController extends @LoginController
-  waitOn: -> Meteor.subscribe('mis-listas')
+  waitOn: -> [Meteor.subscribe('mis-listas'), Meteor.subscribe("userData")]
   data: ->
         email = Meteor.users.findOne().emails[0].address
         listas: tags.find({email: email})
@@ -22,6 +22,9 @@ Template.adminListas.events
         Meteor.call "insertTag", $(".input-nueva-lista").val()
   'click .ban': (e,t)->
         Meteor.call "block", $(e.target).attr('tag')
+  'click .guardar-markets': (e,t)->
+        Meteor.call "saveMarkets", $(t.find(".xautocomplete-tag[formId='mis-tiendas'][name='market']")).val()
+
 
 Template.adminListas.isBanned = (tag)->
     tag = tags.findOne(tag:tag)
@@ -36,3 +39,12 @@ Template.adminListas.checked = (active)->
         'checked'
     else
         ''
+
+@tiendas = (item)->
+    item.name
+
+#Template.adminListas.rendered = ->
+#    $(this.findAll('.xautocomplete-tag')).xautocomplete()
+
+Template.adminListas.misTiendasValue = ->
+    {value: Meteor.users.findOne(Meteor.userId()).myMarkets}

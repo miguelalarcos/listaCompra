@@ -53,3 +53,6 @@ Deps.autorun ->
     console.log 'deps.autorun', item
     if item
         Meteor.call "GuardarItem", item
+
+@referencias = (item)->
+    item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times

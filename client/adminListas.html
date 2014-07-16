@@ -20,4 +20,9 @@
     {{#each invited}}
         <span class="{{isBanned tag}}">{{tag}}</span> <span tag={{tag}} class="ban glyphicon glyphicon-ban-circle"></span>
     {{/each}}
+    <h3>Mis tiendas</h3>
+    {{#with misTiendasValue}}
+        {{> xautocomplete value=this.value formId='mis-tiendas' name='market' funcName='tiendas' tags='mis-tiendas' call='getMarkets' strict='true'}}
+    {{/with}}
+    <button class="guardar-markets">Guardar</button>
 </template>

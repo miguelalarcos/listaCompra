@@ -39,3 +39,6 @@ Meteor.publish 'historic',->
     x = tags.find(is_owner_or_invited_and_not_blocked(this.userId) ).fetch()
     tas = (t.tag for t in x)
     historic.find({tag: {$in: tas}},{reactive:false})
+
+Meteor.publish "userData", ->
+    Meteor.users.find({_id: this.userId}, {fields: {'myMarkets': 1}})

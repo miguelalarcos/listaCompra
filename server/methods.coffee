@@ -1,6 +1,6 @@
 lista = @lista
 tags = @tags
-
+_market_ = @market
 _item_ = @item
 
 email = (userId)->
@@ -43,11 +43,19 @@ Meteor.methods
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
         for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
             if doc.market
+                if not _market_.findOne(name:doc.market)
+                    _market_.insert({name:doc.market, active: true})
+                    markts = Meteor.users.findOne(Meteor.userId()).myMarkets
+                    if markts
+                        markts.push doc.market
+                    else
+                        markts = [doc.market]
+                    Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: markts}})
                 it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
                 if it
                     _item_.update({_id:it._id}, {$set:{timestamp:moment().unix()}, $inc: {times: 1}})
                 else
-                    _item_.insert({timestamp:moment().unix(), item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
+                    _item_.insert({email: email(Meteor.userId()), timestamp:moment().unix(), item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
         lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
     take: (_id)->
         userId = Meteor.userId()
@@ -86,7 +94,19 @@ Meteor.methods
         if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(userId)]})
             lista.remove(_id)
     getItems: (query)->
-        _item_.find({price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {limit: 20, sort: {timestamp: -1, price: +1}} ).fetch()
+        mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
+        _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
 
-    dummy: -> []
+    dummy: ->
+        []
+
+    getMarkets: (query)->
+        _market_.find({active:true, name: { $regex: '^.*'+query+'.*$', $options: 'i'}}).fetch()
+
+    saveMarkets: (markets)->
+        ms = []
+        for m in markets
+            if _market_.findOne(name: m)
+                ms.push m
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: ms}})
 

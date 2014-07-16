@@ -16,18 +16,23 @@ Template.xautocomplete.helpers
         else
             null
     init: ->
-        xdata.insert({name:this.tag + '#' + this.name})
+        xdata.insert({name:this.tag + '#' + this.name}) # para qué?
+        value = this.value
+        Meteor.setTimeout ->
+            #el = $(".xautocomplete-tag[formId='"+this.formId+"'][name='"+this.name+"']")
+            el = $(".xautocomplete-tag")
+            el.val(value)
         null
     tags: (tag) ->
         local_tags.find({tag:tag})
-    items: (call, tag,  name) -> # the items that will be shown in the popover
+    items: (call, tag,  name, funcName) -> # the items that will be shown in the popover
         query = Session.get('xquery')
         if name == current_input
             if query != ''
                 Meteor.call call, query, (error, result)->
                     local_items.remove({})
                     for item, i in result
-                        name = item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times
+                        name = window[funcName] item
                         local_items.insert({tag:tag, name: name, index: i, remote_id: item._id, doc: item})
 
             local_items.find({tag:tag})
@@ -36,7 +41,7 @@ Template.xautocomplete.helpers
 
 Template.xautocomplete.events
     'click .xitem':(e,t)->
-        el = t.find('.xautocomplete')
+        #el = t.find('.xautocomplete')
         name = $(t.find('.xautocomplete')).attr('name')
 
         index = $(e.target).attr('index')
@@ -68,7 +73,10 @@ Template.xautocomplete.events
         else if e.keyCode == 13
             $(e.target).parent().find('.popover2').focus()
             if t.data.tags # tag mode
-                value = $(e.target).val()
+
+                selected = local_items.findOne(selected: 'selected') or $(e.target).val()
+                value = selected.name
+
                 if not local_tags.findOne({tag: t.data.tags, value:value})
                     local_tags.insert({tag: t.data.tags, value:value})
             else
@@ -87,7 +95,7 @@ Template.xautocomplete.events
             current_input = $(e.target).attr('name')
     'click .xclose':(e,t)->
         val = $(e.target).attr('value')
-        local_tags.remove({tag: t.data.tag, value:val})
+        local_tags.remove({tag: t.data.tags, value:val})
 
     'blur .popover2': (e,t)->
         local_items.remove({})
@@ -105,7 +113,6 @@ $.valHooks['xautocomplete'] =
             $(el).find('.xautocomplete').val()
 
     set : (el, value)->
-        console.log 'set', '*',value,'*', el
         if _.isEqual(value, [""])
             value = []
         tag=$(el).attr('tags')
@@ -124,3 +131,5 @@ $.fn.xautocomplete = ->
     this.each -> this.type = 'xautocomplete'
     this
 
+Template.xautocomplete.rendered = ->
+    $(this.findAll('.xautocomplete-tag')).xautocomplete()

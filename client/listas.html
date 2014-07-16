@@ -9,7 +9,7 @@
         {{> itemxtag}}
         {{#if ../edit}}
         <tr>
-            <td>{{> xautocomplete formId=this.tag name='item' value="" tag=this.tag call='getItems' strict='false'}}</td>
+            <td>{{> xautocomplete formId=this.tag name='item' value="" funcName='referencias' tag=this.tag call='getItems' strict='false'}}</td>
             <td><input formId="{{this.tag}}" name='quantity' class='number five_chars' type="text"></td>
             <td><input formId="{{this.tag}}" name='price' class='number five_chars' type="text"></td>
             <td><input formId="{{this.tag}}" name='market' class="text" type="text"></td>

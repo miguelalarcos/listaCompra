@@ -16,3 +16,5 @@
             decimal: true
         times:
             type: Number
+        email:
+            type: String
