@@ -50,7 +50,7 @@ Template.xautocomplete.events
             item.tag = selected.tag
             delete item._id
             Session.set "item-selected", selected.doc
-            console.log 'item-selected', selecte.doc
+            console.log 'item-selected', selected.doc
         local_items.remove({})
         Session.set('xquery','')
         index = -1

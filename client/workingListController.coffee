@@ -7,8 +7,21 @@ class @WorkingListController extends @LoginController
     tas = tags.find({active: true}).fetch()
     all = lista.find({stored: false}).fetch()
     all = _.groupBy(all, (x)->x.tag)
+    #total por tag
+    ret = []
+    for t in tas
+        sum = 0
+        if _.has(all, t.tag)
+            for item in all[t.tag]
+                if item.quantity and item.price
+                    sum += item.quantity*item.price
+            ret.push {tag: t.tag, sum: sum}
+        else
+            ret.push {tag: t.tag, sum: 0}
+    console.log 'ret:', ret
+    #return
     items: (key)->all[key]
-    tags: -> (t.tag for t in tas)
+    tags: -> ret #(t.tag for t in tas)
     edit: true
 
 Template.workingList.events

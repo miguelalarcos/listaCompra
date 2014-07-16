@@ -21,7 +21,7 @@ Template.listas.events
         $("[formId='"+tag+"']").each (index, el)->
             el=$(el)
             item[el.attr('name')] = el.val()
-            console.log item
+
         if item.item
             Meteor.call "GuardarItem", item
             $("[formId='"+tag+"']").each (index, el)->

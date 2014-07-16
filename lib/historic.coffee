@@ -6,6 +6,7 @@
             type: String
         quantity:
             type: Number
+            decimal: true
             optional: true
         price:
             type: Number

@@ -7,7 +7,7 @@ class @DespensaController extends @LoginController
     all = lista.find({stored: true}).fetch()
     all = _.groupBy(all, (x)->x.tag)
     items: (key)->all[key]
-    tags: -> (t.tag for t in tas)
+    tags: -> ({tag: t.tag} for t in tas)
     edit: false
 
 Template.despensa.events

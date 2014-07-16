@@ -1,19 +1,20 @@
 <template name="listas">
     {{#each tags}}
-    <h2 tag="{{this}}" class="head-lista">{{this}}</h2><!--¿alguien utiliza tag aqui?-->
-    <table tag="{{this}}">
+    <h2 tag="{{this.tag}}" class="head-lista">{{this.tag}}</h2><!--¿alguien utiliza tag aqui?-->
+    {{#if ../edit}}<h2>{{this.sum}} €</h2>{{/if}}
+    <table tag="{{this.tag}}">
         <tr>
             <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
         </tr>
         {{> itemxtag}}
         {{#if ../edit}}
         <tr>
-            <td>{{> xautocomplete formId=this name='item' value="" tag=this call='getItems' strict='false'}}</td>
-            <td><input formId="{{this}}" name='quantity' class='number five_chars' type="text"></td>
-            <td><input formId="{{this}}" name='price' class='number five_chars' type="text"></td>
-            <td><input formId="{{this}}" name='market' class="text" type="text"></td>
-            <td><button formId="{{this}}" class="orange guardar">Guardar</button></td>
-            <td><input formId="{{this}}" name='_id' class="text" type="hidden"></td>
+            <td>{{> xautocomplete formId=this.tag name='item' value="" tag=this.tag call='getItems' strict='false'}}</td>
+            <td><input formId="{{this.tag}}" name='quantity' class='number five_chars' type="text"></td>
+            <td><input formId="{{this.tag}}" name='price' class='number five_chars' type="text"></td>
+            <td><input formId="{{this.tag}}" name='market' class="text" type="text"></td>
+            <td><button formId="{{this.tag}}" class="orange guardar">Guardar</button></td>
+            <td><input formId="{{this.tag}}" name='_id' class="text" type="hidden"></td>
         </tr>
         {{/if}}
     </table>
@@ -21,7 +22,7 @@
 </template>
 
 <template name="itemxtag">
-    {{#each ../items this}}
+    {{#each ../items this.tag}}
     <tr class="{{isTaken _id}}">
         <td class="take h2" _id="{{_id}}">{{item}}</td><td>{{quantity}}</td><td>{{price}}</td><td>{{market}}</td>
          {{#if ../../edit}}
