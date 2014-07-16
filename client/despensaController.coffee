@@ -8,6 +8,7 @@ class @DespensaController extends @LoginController
     all = _.groupBy(all, (x)->x.tag)
     items: (key)->all[key]
     tags: -> (t.tag for t in tas)
+    edit: false
 
 Template.despensa.events
   'click div.take': (e,t)->

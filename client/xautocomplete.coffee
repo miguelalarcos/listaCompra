@@ -27,7 +27,7 @@ Template.xautocomplete.helpers
                 Meteor.call call, query, (error, result)->
                     local_items.remove({})
                     for item, i in result
-                        name = item.item+', '+item.price + ', '+ item.market
+                        name = item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY')
                         local_items.insert({tag:tag, name: name, index: i, remote_id: item._id, doc: item})
 
             local_items.find({tag:tag})

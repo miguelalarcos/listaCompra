@@ -11,5 +11,8 @@
         market:
             type: String
             optional: true
+        timestamp:
+            type: Number
+            decimal: true
         times:
             type: Number

@@ -43,15 +43,20 @@ Meteor.methods
         lista.update({taken:true, stored: true, tag : {$in: tas}}, {$set: {stored: false, taken:false}}, {multi:true})
     almacenar: ->
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
+        for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
+            it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
+            if it
+                _item_.update({_id:it._id}, {$set:{timestamp:moment().unix()}, $inc: {times: 1}})
+            else
+                _item_.insert({timestamp:moment().unix(), item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
         lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false}}, {multi:true})
     take: (_id)->
         userId = Meteor.userId()
         item = lista.findOne(_id)
         tag = item.tag
         taken = item.taken
-        console.log 'take 1', taken, _id
+
         if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(userId)]})
-            console.log 'take 2', not taken
             lista.update({_id:_id}, {$set:{taken: not taken}})
     GuardarItem: (doc)->
         console.log 'guardarDoc', doc
@@ -60,11 +65,6 @@ Meteor.methods
         x = is_owner_or_invited(Meteor.userId())
         x['tag'] = doc.tag
         if tags.find(x)
-            it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
-            if it
-                _item_.update({_id:it._id}, {$inc: {times: 1}})
-            else
-                _item_.insert({item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
             doc.stored = false
             doc.taken = false
             delete doc.active
@@ -73,7 +73,6 @@ Meteor.methods
               delete doc._id
               lista.update({_id:_id}, {$set: doc})
             else
-              console.log 'hacemos insert', doc
               lista.insert(doc)
     insertTag: (tag)->
         #doc.userId = Meteor.userId()
@@ -89,7 +88,7 @@ Meteor.methods
         if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(userId)]})
             lista.remove(_id)
     getItems: (query)->
-        _item_.find({price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {limit: 10, sort: {price: +1}} ).fetch()
+        _item_.find({price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {limit: 10, sort: {timestamp: 1, price: +1}} ).fetch()
 
     dummy: -> []
 

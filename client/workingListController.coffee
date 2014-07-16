@@ -9,6 +9,7 @@ class @WorkingListController extends @LoginController
     all = _.groupBy(all, (x)->x.tag)
     items: (key)->all[key]
     tags: -> (t.tag for t in tas)
+    edit: true
 
 Template.workingList.events
   'click .almacenar': (e,t)->

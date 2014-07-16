@@ -5,14 +5,15 @@
 <template name="login">
     {{>loginButtons}}
     {{#if currentUser}}
-        Now you are logged in you can go <a href="{{pathFor 'home'}}">home</a> and play with your lists!
+        Ya estás dentro y puedes ir a tu <a href="{{pathFor 'home'}}">"home"</a>.
     {{else}}
-        Please Login...
+        Por favor, introduce tu usuario y contraseña. Si todavía no tienes puedes crearte una cuenta gratis.
     {{/if}}
 </template>
 
 <template name="HMenu">
     <a href="{{pathFor 'login'}}">Login</a>
+    <a href="{{pathFor 'home'}}">Home</a>
     <a href="{{pathFor 'workingList'}}">Listas</a>
     <a href="{{pathFor 'despensa'}}">Despensa</a>
     <a href="{{pathFor 'historic'}}">Histórico</a>
@@ -21,7 +22,10 @@
 </template>
 
 <template name="home">
-    Home!
+    Un consejo: en la vista de listas puedes seleccionar elementos de la lista con tan sólo clickar sobre el nombre.
+     Esa es la razón por la que el nombre está en grande :) Una vez seleccionados los elementos que quieres, puedes
+     clickar sobre el botón "A la despensa" para mandar los elementos a la despensa. Por favor, introduce antes el
+     el precio unitario y la cantidad de compra.
     <div><a href="{{pathFor 'workingList'}}">Tus listas y las listas a las que estás invitado</a></div>
     <div><a href="{{pathFor 'adminListas'}}">Administra tus listas, crea nuevas e invita a tus amigos</a></div>
     <div><a href="{{pathFor 'despensa'}}">Mira qué tienes actualmente en tu despensa</a></div>
@@ -29,14 +33,16 @@
 
 <template name="workingList">
   {{>HMenu}}
-  <button class="almacenar">A la despensa</button>
+    <h1>Mis Listas</h1>
+  <button class="almacenar pink">A la despensa</button>
   {{>listas}}
 </template>
 
 <template name="despensa">
     {{>HMenu}}
-    <button class="consumir">Consumir</button>
-    <button class="vaciar">Vaciar</button>
+    <h1>La despensa</h1>
+    <button class="consumir green">Para comprar</button>
+    <button class="vaciar black">Vaciar</button>
     {{>listas}}
 </template>
 
