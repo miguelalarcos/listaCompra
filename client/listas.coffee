@@ -1,3 +1,5 @@
+Session.set 'item-selected', null
+
 Template.listas.events
     'keyup input:not([nested])': (e,t)->
         if e.keyCode == 13
@@ -42,4 +44,6 @@ Template.listas.rendered = ->
 
 Deps.autorun ->
     item = Session.get 'item-selected'
-    Meteor.call "GuardarItem", item
+    console.log 'deps.autorun', item
+    if item
+        Meteor.call "GuardarItem", item

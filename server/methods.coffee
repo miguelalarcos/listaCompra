@@ -29,7 +29,6 @@ Meteor.methods
             delete doc._id
             delete doc.taken
             delete doc.stored
-            doc.timestamp = moment().unix()
             historic.insert(doc)
       lista.remove({taken:true, stored: true, tag : {$in: tas}})
     consumir: ->
@@ -38,18 +37,18 @@ Meteor.methods
             delete doc._id
             delete doc.taken
             delete doc.stored
-            doc.timestamp = moment().unix()
             historic.insert(doc)
         lista.update({taken:true, stored: true, tag : {$in: tas}}, {$set: {stored: false, taken:false}}, {multi:true})
     almacenar: ->
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
         for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
-            it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
-            if it
-                _item_.update({_id:it._id}, {$set:{timestamp:moment().unix()}, $inc: {times: 1}})
-            else
-                _item_.insert({timestamp:moment().unix(), item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
-        lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false}}, {multi:true})
+            if doc.market
+                it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
+                if it
+                    _item_.update({_id:it._id}, {$set:{timestamp:moment().unix()}, $inc: {times: 1}})
+                else
+                    _item_.insert({timestamp:moment().unix(), item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
+        lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
     take: (_id)->
         userId = Meteor.userId()
         item = lista.findOne(_id)
@@ -75,11 +74,10 @@ Meteor.methods
             else
               lista.insert(doc)
     insertTag: (tag)->
-        #doc.userId = Meteor.userId()
-        #email = Meteor.users.findOne(Meteor.userId()).emails[0].address
         doc = {}
         doc.email = email(Meteor.userId())
         doc.tag = tag + '#' + doc.email
+        doc.active = true
         tags.insert(doc)
     removeItem: (_id)->
         userId = Meteor.userId()

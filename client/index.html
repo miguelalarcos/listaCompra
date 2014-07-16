@@ -22,10 +22,15 @@
 </template>
 
 <template name="home">
-    Un consejo: en la vista de listas puedes seleccionar elementos de la lista con tan sólo clickar sobre el nombre.
+    <div class="font-yellow">Un consejo: en la vista de listas puedes seleccionar elementos de la lista con tan sólo clickar sobre el nombre.
      Esa es la razón por la que el nombre está en grande :) Una vez seleccionados los elementos que quieres, puedes
      clickar sobre el botón "A la despensa" para mandar los elementos a la despensa. Por favor, introduce antes el
-     el precio unitario y la cantidad de compra.
+     el precio unitario y la cantidad de compra.<br>
+     En la despensa tienes dos opciones: marcar los elementos y mandarlos nuevamente a la lista de la compra o tan sólo
+      vaciar la despensa.<br>Próximamente habrá una pantalla de accesos directos donde clickar en tan sólo un botón para
+      hacer esa compra repetitiva que siempre haces.<br>
+    </div>
+    <div>Tus acciones:</div>
     <div><a href="{{pathFor 'workingList'}}">Tus listas y las listas a las que estás invitado</a></div>
     <div><a href="{{pathFor 'adminListas'}}">Administra tus listas, crea nuevas e invita a tus amigos</a></div>
     <div><a href="{{pathFor 'despensa'}}">Mira qué tienes actualmente en tu despensa</a></div>
@@ -34,15 +39,16 @@
 <template name="workingList">
   {{>HMenu}}
     <h1>Mis Listas</h1>
-  <button class="almacenar pink">A la despensa</button>
+  <span>Selecciona los items clickando en el nombre y...</span><button class="almacenar pink">A la despensa</button>
   {{>listas}}
 </template>
 
 <template name="despensa">
     {{>HMenu}}
     <h1>La despensa</h1>
+    <span>Selecciona los items que quieres volver a tener en tu lista de la compra</span>
     <button class="consumir green">Para comprar</button>
-    <button class="vaciar black">Vaciar</button>
+    <button class="vaciar black">Vaciar</button><span>Simplemente selecciona items y vacía la despensa.</span>
     {{>listas}}
 </template>
 

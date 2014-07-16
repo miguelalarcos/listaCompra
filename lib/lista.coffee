@@ -20,3 +20,7 @@
         market:
             type: String
             optional: true
+        timestamp:
+            type: Number
+            decimal: true
+            optional: true

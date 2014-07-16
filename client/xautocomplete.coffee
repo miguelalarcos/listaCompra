@@ -27,7 +27,7 @@ Template.xautocomplete.helpers
                 Meteor.call call, query, (error, result)->
                     local_items.remove({})
                     for item, i in result
-                        name = item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY')
+                        name = item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times
                         local_items.insert({tag:tag, name: name, index: i, remote_id: item._id, doc: item})
 
             local_items.find({tag:tag})
@@ -50,6 +50,7 @@ Template.xautocomplete.events
             item.tag = selected.tag
             delete item._id
             Session.set "item-selected", selected.doc
+            console.log 'item-selected', selecte.doc
         local_items.remove({})
         Session.set('xquery','')
         index = -1
@@ -76,6 +77,7 @@ Template.xautocomplete.events
                     selected.doc.tag = t.data.tag
                     delete selected.doc._id
                     Session.set "item-selected", selected.doc
+                    console.log 'item-selected()', selected.doc
             # close popover
             local_items.remove({})
             Session.set('xquery','')
