@@ -86,7 +86,7 @@ Meteor.methods
         if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(userId)]})
             lista.remove(_id)
     getItems: (query)->
-        _item_.find({price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {limit: 10, sort: {timestamp: 1, price: +1}} ).fetch()
+        _item_.find({price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {limit: 20, sort: {timestamp: -1, price: +1}} ).fetch()
 
     dummy: -> []
 

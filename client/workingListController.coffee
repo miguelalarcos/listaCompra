@@ -28,7 +28,12 @@ Template.workingList.events
   'click .almacenar': (e,t)->
     Meteor.call "almacenar"
 
-
+Template.workingList.isVisibleButton = ->
+    items = lista.find({stored: false, taken: true}).fetch()
+    for it in items
+        if _.isEmpty(it.market) or _.isEmpty(it.item) or _.isNaN(parseFloat(it.price)) or _.isNaN(parseFloat(it.quantity))
+            return false
+    return true
 
 
 

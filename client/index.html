@@ -39,8 +39,13 @@
 <template name="workingList">
   {{>HMenu}}
     <h1>Mis Listas</h1>
-  <span>Selecciona los items clickando en el nombre y...</span><button class="almacenar pink">A la despensa</button>
-  {{>listas}}
+  <span>Selecciona los items clickando en el nombre y...</span>
+    {{#if isVisibleButton}}
+    <button class="almacenar pink">A la despensa</button>
+    {{else}}
+    (si no ves el botón de despensa es porque te faltan por rellenar datos. Asegúrate también que los datos de precio y cantidad son numéricos)
+    {{/if}}
+    {{>listas}}
 </template>
 
 <template name="despensa">
