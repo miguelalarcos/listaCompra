@@ -40,17 +40,16 @@ Template.xautocomplete.events
     'click .xitem':(e,t)->
         #name = $(t.find('.xautocomplete')).attr('name')
 
-        index = $(e.target).attr('index')
+        index = $(e.target).parent().attr('index')
         local_items.update({},{$set:{selected: ''}})
         local_items.update({index: parseInt(index)}, {$set:{selected: 'selected'}})
 
         selected = local_items.findOne selected: 'selected'
-
         if selected
             item = selected.doc
             item.tag = selected.tag
             delete item._id
-            parent = $(e.target).parent().parent()
+            parent = $(e.target).parent().parent().parent()
             formId= parent.attr('formId')
             name = parent.attr('name')
             Session.set "item-selected", {tag: formId+'#'+name, doc: selected.doc}

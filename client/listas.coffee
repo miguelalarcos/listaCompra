@@ -60,6 +60,6 @@ Deps.autorun ->
                 $(".xautocomplete-tag[formId='"+t.tag+"'][name='market']").val(item.doc.name)
 
 @referencias = (item)->
-    item.price + ', '+ item.item + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times
+    "<td><b>" + item.price + "</b></td><td>"+ item.item + '&nbsp;</td><td>'+ item.market + '&nbsp;</td><td>' + moment.unix(item.timestamp).format('DD-MM-YYYY') + '</td><td align="right">' + item.times+'</td>'
 
 @market = (item) -> item.name

@@ -11,7 +11,7 @@ is_owner_or_invited = (userId)->
 
 Meteor.methods
     block: (tag)->
-        console.log tag, email(Meteor.userId())
+
         tag = tags.findOne(tag: tag, invited: email(Meteor.userId()))
         if tag
             mail = email(Meteor.userId())
@@ -63,7 +63,7 @@ Meteor.methods
         if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(userId)]})
             lista.update({_id:_id}, {$set:{taken: not taken}})
     GuardarItem: (doc)->
-        console.log 'guardarDoc', doc
+
         if not doc
             return
         x = is_owner_or_invited(Meteor.userId())
@@ -92,10 +92,8 @@ Meteor.methods
             lista.remove(_id)
     getItems: (query)->
         mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
-        x = _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
-        console.log x
-        x
-
+        _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
+        
     dummy: ->
         []
 

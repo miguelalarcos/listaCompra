@@ -4,7 +4,7 @@
         <input nested=true tags={{this.tags}} type='text' class=xautocomplete name="{{getName}}" value="{{getValue getName}}">
         <div class=popover2 tabindex=100>
             {{#each items this.call tag getName this.funcName}}
-                <div index={{this.index}} class="xitem {{this.selected}}">{{this.name}}</div>
+                <tr index={{this.index}} class="xitem {{this.selected}}">{{{this.name}}}</tr>
             {{/each}}
         </div>
         <br>
