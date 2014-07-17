@@ -45,21 +45,14 @@ Meteor.methods
             if doc.market
                 if not _market_.findOne(name:doc.market)
                     _market_.insert({name:doc.market, active: true})
-                #
-                #markts = Meteor.users.findOne(Meteor.userId()).myMarkets
-                #if markts
-                #    if doc.market not in markts
-                #        markts.push doc.market
-                #else
-                #    markts = [doc.market]
-                #Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: markts}})
-                #
+
                 Meteor.users.update({_id: Meteor.userId()}, {$addToSet: {myMarkets: doc.market}})
                 it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
+                timestamp = moment().startOf('day').unix()
                 if it
-                    _item_.update({_id:it._id}, {$set:{timestamp:moment().unix()}, $inc: {times: 1}})
+                    _item_.update({_id:it._id}, {$set:{timestamp:timestamp}, $inc: {times: 1}})
                 else
-                    _item_.insert({email: email(Meteor.userId()), timestamp:moment().unix(), item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
+                    _item_.insert({email: email(Meteor.userId()), timestamp:timestamp, item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
         lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
     take: (_id)->
         userId = Meteor.userId()
@@ -99,7 +92,9 @@ Meteor.methods
             lista.remove(_id)
     getItems: (query)->
         mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
-        _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
+        x = _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
+        console.log x
+        x
 
     dummy: ->
         []
