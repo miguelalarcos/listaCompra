@@ -41,7 +41,9 @@ Template.adminListas.checked = (active)->
         ''
 
 @tiendas = (item)->
-    item.name
+    '<td>'+item.name+'</td>'
 
 Template.adminListas.misTiendasValue = ->
     {value: Meteor.users.findOne(Meteor.userId()).myMarkets}
+
+

@@ -49,9 +49,16 @@ Template.itemxtag.isTaken = (_id) ->
 Template.listas.rendered = ->
     $(this.findAll('.xautocomplete-tag')).xautocomplete()
 
+# debe estar en un fichero llamado deps.autorun.coffee
 Deps.autorun ->
     item = Session.get 'item-selected'
     if item
+        if item.tag == 'mis-tiendas#market'
+            ret = $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val()
+            ret.push item.doc.name
+            $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val(ret)
+            Session.set 'item-selected', null
+            return
         for t in _tags_.find({active: true}).fetch()
             if item.tag == t.tag+'#item'
                 Meteor.call "GuardarItem", item.doc
@@ -62,4 +69,4 @@ Deps.autorun ->
 @referencias = (item)->
     "<td><b>" + item.price + "</b></td><td>"+ item.item + '&nbsp;</td><td>'+ item.market + '&nbsp;</td><td>' + moment.unix(item.timestamp).format('DD-MM-YYYY') + '</td><td align="right">' + item.times+'</td>'
 
-@market = (item) -> item.name
+@market = (item) -> '<td>'+item.name+'</td>'

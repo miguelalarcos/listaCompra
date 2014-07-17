@@ -6,6 +6,8 @@ Session.set 'xquery', null
 index = -1
 current_input = null
 
+initiated = {}
+
 Template.xautocomplete.helpers
     getName: ->
         this.tag + '#' + this.name
@@ -16,11 +18,13 @@ Template.xautocomplete.helpers
         else
             null
     init: ->
-        xdata.insert({name:this.tag + '#' + this.name}) # para qué?
-        for value in (this.value or [])
-            if local_tags.findOne({tag: this.formId, value:value})
-                break
-            local_tags.insert({tag: this.formId, value:value})
+        if not initiated[this.tag + '#' + this.name]
+            xdata.insert({name:this.tag + '#' + this.name}) # para qué?
+            for value in (this.value or [])
+                #if local_tags.findOne({tag: this.formId, value:value})
+                #    break
+                local_tags.insert({tag: this.formId, value:value})
+        initiated[this.tag + '#' + this.name] = true
         null
     tags: (tag) ->
         local_tags.find({tag:tag})
@@ -54,6 +58,7 @@ Template.xautocomplete.events
             parent = $(e.target).parent().parent().parent()
             formId= parent.attr('formId')
             name = parent.attr('name')
+
             Session.set "item-selected", {tag: formId+'#'+name, doc: selected.doc}
         local_items.remove({})
         Session.set('xquery','')
@@ -75,7 +80,7 @@ Template.xautocomplete.events
 
                 selected = local_items.findOne(selected: 'selected')
                 if selected
-                    value = selected.name
+                    value = selected.doc.name
                 else
                     if t.data.strict == 'true'
                         return
