@@ -57,7 +57,7 @@ Deps.autorun ->
                 Meteor.call "GuardarItem", item.doc
                 break
             else if item.tag == t.tag+'#market'
-                $(".xautocomplete-tag[name='market']").val(item.doc.name)
+                $(".xautocomplete-tag[formId='"+t.tag+"'][name='market']").val(item.doc.name)
 
 @referencias = (item)->
     item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times

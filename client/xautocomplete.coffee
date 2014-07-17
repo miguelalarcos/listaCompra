@@ -17,12 +17,8 @@ Template.xautocomplete.helpers
             null
     init: ->
         xdata.insert({name:this.tag + '#' + this.name}) # para qué?
-        value = this.value
-        Meteor.setTimeout ->
-            # IMPORTANTE!!!:
-            #el = $(".xautocomplete-tag[formId='"+this.formId+"'][name='"+this.name+"']")
-            el = $(".xautocomplete-tag")
-            el.val(value)
+        for value in (this.value or [])
+            local_tags.insert({tag: this.formId, value:value})
         null
     tags: (tag) ->
         local_tags.find({tag:tag})
