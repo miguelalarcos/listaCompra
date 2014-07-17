@@ -18,6 +18,8 @@ Template.xautocomplete.helpers
     init: ->
         xdata.insert({name:this.tag + '#' + this.name}) # para qué?
         for value in (this.value or [])
+            if local_tags.findOne({tag: this.formId, value:value})
+                break
             local_tags.insert({tag: this.formId, value:value})
         null
     tags: (tag) ->

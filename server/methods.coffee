@@ -22,7 +22,7 @@ Meteor.methods
     guardarLista: (doc)->
         tag = tags.findOne(tag:doc.tag, email:email(Meteor.userId()))
         if tag
-            tags.update({_id:tag._id}, {$set: {active: doc.active, description: doc.descripcion, invited: doc.mails}})
+            tags.update({_id:tag._id}, {$set: {private: doc.private, active: doc.active, description: doc.descripcion, invited: doc.mails}})
     vaciar: ->
       tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
       for doc in lista.find({taken:true, stored: true, tag : {$in: tas}}).fetch()
@@ -40,7 +40,8 @@ Meteor.methods
             historic.insert(doc)
         lista.update({taken:true, stored: true, tag : {$in: tas}}, {$set: {stored: false, taken:false}}, {multi:true})
     almacenar: ->
-        tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
+        cond = {$and : [{private: false}, is_owner_or_invited(Meteor.userId())]}
+        tas = (t.tag for t in tags.find(cond).fetch())
         for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
             if doc.market
                 if not _market_.findOne(name:doc.market)
@@ -53,6 +54,8 @@ Meteor.methods
                     _item_.update({_id:it._id}, {$set:{timestamp:timestamp}, $inc: {times: 1}})
                 else
                     _item_.insert({email: email(Meteor.userId()), timestamp:timestamp, item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
+
+        tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
         lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
     take: (_id)->
         userId = Meteor.userId()
@@ -83,6 +86,7 @@ Meteor.methods
         doc.email = email(Meteor.userId())
         doc.tag = tag + '#' + doc.email
         doc.active = true
+        doc.private = false
         tags.insert(doc)
     removeItem: (_id)->
         userId = Meteor.userId()
@@ -93,7 +97,7 @@ Meteor.methods
     getItems: (query)->
         mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
         _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
-        
+
     dummy: ->
         []
 

@@ -17,5 +17,8 @@
         active:
             type: Boolean
             optional: true
+        private:
+            type: Boolean
+            optional: true
 
 

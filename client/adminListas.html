@@ -2,7 +2,7 @@
     {{>HMenu}}
     <table>
         <tr>
-            <td>Nombre</td><td>Descripción</td><td>Invitados</td><td>Activa</td>
+            <td>Nombre</td><td>Descripción</td><td>Invitados</td><td>Activa</td><td>Privada</td>
         </tr>
         {{#each listas}}
         <tr>
@@ -11,6 +11,7 @@
             <td><textarea formId={{tag}} name="mails">{{invited}}</textarea></td>
             <!--<td>{{> xautocomplete formId=this.tag name='mails2' tags=this.tag call='dummy' strict='false'}}</td>-->
             <td><input type="checkbox" formId="{{tag}}" name="active" class="check" {{checked active}}></td>
+            <td><input type="checkbox" formId="{{tag}}" name="private" class="check" {{checked private}}></td>
             <button formId={{tag}} class="guardar-lista">Guardar</button>
         </tr>
         {{/each}}
