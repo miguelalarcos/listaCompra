@@ -42,8 +42,7 @@ Template.xautocomplete.helpers
 
 Template.xautocomplete.events
     'click .xitem':(e,t)->
-        #el = t.find('.xautocomplete')
-        name = $(t.find('.xautocomplete')).attr('name')
+        #name = $(t.find('.xautocomplete')).attr('name')
 
         index = $(e.target).attr('index')
         local_items.update({},{$set:{selected: ''}})

@@ -55,8 +55,11 @@ Deps.autorun ->
         for t in _tags_.find({active: true}).fetch()
             if item.tag == t.tag+'#item'
                 Meteor.call "GuardarItem", item.doc
-                console.log 'guardamos', item.doc
                 break
+            else if item.tag == t.tag+'#market'
+                $(".xautocomplete-tag[name='market']").val(item.doc.name)
 
 @referencias = (item)->
     item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times
+
+@market = (item) -> item.name

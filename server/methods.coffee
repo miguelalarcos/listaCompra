@@ -45,12 +45,16 @@ Meteor.methods
             if doc.market
                 if not _market_.findOne(name:doc.market)
                     _market_.insert({name:doc.market, active: true})
-                    markts = Meteor.users.findOne(Meteor.userId()).myMarkets
-                    if markts
-                        markts.push doc.market
-                    else
-                        markts = [doc.market]
-                    Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: markts}})
+                #
+                #markts = Meteor.users.findOne(Meteor.userId()).myMarkets
+                #if markts
+                #    if doc.market not in markts
+                #        markts.push doc.market
+                #else
+                #    markts = [doc.market]
+                #Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: markts}})
+                #
+                Meteor.users.update({_id: Meteor.userId()}, {$addToSet: {myMarkets: doc.market}})
                 it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
                 if it
                     _item_.update({_id:it._id}, {$set:{timestamp:moment().unix()}, $inc: {times: 1}})
