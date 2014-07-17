@@ -1,3 +1,4 @@
+_tags_ = @tags
 Session.set 'item-selected', null
 
 Template.listas.events
@@ -50,9 +51,12 @@ Template.listas.rendered = ->
 
 Deps.autorun ->
     item = Session.get 'item-selected'
-    console.log 'deps.autorun', item
     if item
-        Meteor.call "GuardarItem", item
+        for t in _tags_.find({active: true}).fetch()
+            if item.tag == t.tag+'#item'
+                Meteor.call "GuardarItem", item.doc
+                console.log 'guardamos', item.doc
+                break
 
 @referencias = (item)->
     item.item+', '+item.price + ', '+ item.market + ', ' + moment.unix(item.timestamp).format('DD-MM-YYYY') + ', ' + item.times

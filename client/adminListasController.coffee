@@ -43,8 +43,5 @@ Template.adminListas.checked = (active)->
 @tiendas = (item)->
     item.name
 
-#Template.adminListas.rendered = ->
-#    $(this.findAll('.xautocomplete-tag')).xautocomplete()
-
 Template.adminListas.misTiendasValue = ->
     {value: Meteor.users.findOne(Meteor.userId()).myMarkets}

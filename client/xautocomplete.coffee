@@ -19,6 +19,7 @@ Template.xautocomplete.helpers
         xdata.insert({name:this.tag + '#' + this.name}) # para qué?
         value = this.value
         Meteor.setTimeout ->
+            # IMPORTANTE!!!:
             #el = $(".xautocomplete-tag[formId='"+this.formId+"'][name='"+this.name+"']")
             el = $(".xautocomplete-tag")
             el.val(value)
@@ -54,8 +55,10 @@ Template.xautocomplete.events
             item = selected.doc
             item.tag = selected.tag
             delete item._id
-            Session.set "item-selected", selected.doc
-            console.log 'item-selected', selected.doc
+            parent = $(e.target).parent().parent()
+            formId= parent.attr('formId')
+            name = parent.attr('name')
+            Session.set "item-selected", {tag: formId+'#'+name, doc: selected.doc}
         local_items.remove({})
         Session.set('xquery','')
         index = -1
@@ -74,8 +77,14 @@ Template.xautocomplete.events
             $(e.target).parent().find('.popover2').focus()
             if t.data.tags # tag mode
 
-                selected = local_items.findOne(selected: 'selected') or $(e.target).val()
-                value = selected.name
+                selected = local_items.findOne(selected: 'selected')
+                if selected
+                    value = selected.name
+                else
+                    if t.data.strict == 'true'
+                        return
+                    else
+                        value = $(e.target).val()
 
                 if not local_tags.findOne({tag: t.data.tags, value:value})
                     local_tags.insert({tag: t.data.tags, value:value})
@@ -84,8 +93,10 @@ Template.xautocomplete.events
                 if selected
                     selected.doc.tag = t.data.tag
                     delete selected.doc._id
-                    Session.set "item-selected", selected.doc
-                    console.log 'item-selected()', selected.doc
+                    parent = $(e.target).parent()
+                    formId = parent.attr('formId')
+                    name = parent.attr('name')
+                    Session.set "item-selected", {tag: formId+'#'+name,doc:selected.doc}
             # close popover
             local_items.remove({})
             Session.set('xquery','')
