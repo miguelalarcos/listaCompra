@@ -3,13 +3,14 @@
         {{init}}
         <input nested=true tags={{this.tags}} type='text' class=xautocomplete name="{{getName}}" value="{{getValue getName}}">
         <div class=popover2 tabindex=100>
-            {{#each items this.call tag getName this.funcName}}
+            {{#each items this.call this.tags getName this.funcName}}
                 <tr index={{this.index}} class="xitem {{this.selected}}">{{{this.name}}}</tr>
             {{/each}}
         </div>
         <br>
-        {{#each tags this.tags}}
-        <span class=tag>{{this.value}} <span value={{this.value}} class=xclose>|x</span></span>
+        <!--{{#each tags this.tags}}-->
+        {{#each tags}}
+        <span class=tag>{{this.value}} <span value={{this.value}} class="xclose">x</span></span>
         {{/each}}
     </div>
 </template>

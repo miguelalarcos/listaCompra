@@ -96,7 +96,7 @@ Meteor.methods
             lista.remove(_id)
     getItems: (query)->
         mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
-        _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, price: +1}, limit: 20} ).fetch()
+        _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, times: -1}, limit: 20} ).fetch()
 
     dummy: ->
         []

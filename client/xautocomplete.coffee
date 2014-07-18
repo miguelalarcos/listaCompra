@@ -10,7 +10,7 @@ initiated = {}
 
 Template.xautocomplete.helpers
     getName: ->
-        this.tag + '#' + this.name
+        this.tags + '#' + this.name
     getValue: (name) ->
         item = xdata.findOne(name:name)
         if item
@@ -18,16 +18,18 @@ Template.xautocomplete.helpers
         else
             null
     init: ->
-        if not initiated[this.tag + '#' + this.name]
-            xdata.insert({name:this.tag + '#' + this.name}) # para qué?
-            for value in (this.value or [])
-                #if local_tags.findOne({tag: this.formId, value:value})
-                #    break
-                local_tags.insert({tag: this.formId, value:value})
-        initiated[this.tag + '#' + this.name] = true
+        local_tags.remove(tag: this.tags+'#'+this.name)
+        for value in (this.value or [])
+            local_tags.insert({tag: this.tags+'#'+this.name, value:value})
+        #if not initiated[this.tags + '#' + this.name]
+        #    xdata.insert({name:this.tags + '#' + this.name}) # para qué?
+        #    for value in (this.value or [])
+        #        local_tags.insert({tag: this.tags+'#'+this.name, value:value})
+        #    initiated[this.tags + '#' + this.name] = true
+        xdata.insert({name:this.tags + '#' + this.name}) # para qué?
         null
-    tags: (tag) ->
-        local_tags.find({tag:tag})
+    tags: ->
+        local_tags.find({tag:this.tags+'#'+this.name})
     items: (call, tag,  name, funcName) -> # the items that will be shown in the popover
         query = Session.get('xquery')
         if name == current_input
@@ -86,9 +88,9 @@ Template.xautocomplete.events
                         return
                     else
                         value = $(e.target).val()
-
-                if not local_tags.findOne({tag: t.data.tags, value:value})
-                    local_tags.insert({tag: t.data.tags, value:value})
+                tag = t.data.tags + '#' + t.data.name
+                if not local_tags.findOne({tag: tag, value:value})
+                    local_tags.insert({tag: tag, value:value})
             else
                 selected = local_items.findOne selected: 'selected'
                 if selected
@@ -107,7 +109,7 @@ Template.xautocomplete.events
             current_input = $(e.target).attr('name')
     'click .xclose':(e,t)->
         val = $(e.target).attr('value')
-        local_tags.remove({tag: t.data.tags, value:val})
+        local_tags.remove({tag: t.data.tags+'#'+t.data.name, value:val})
 
     'blur .popover2': (e,t)->
         local_items.remove({})
@@ -118,6 +120,7 @@ $.valHooks['xautocomplete'] =
     get : (el)->
         tag = $(el).attr('tags')
         if tag
+            tag = tag + '#' + $(el).attr('name')
             (x.value for x in local_tags.find(tag: tag).fetch())
         else
             if $(el).attr('strict') == 'true' and $(el).find('.xautocomplete').attr('_id') == 'null'
@@ -129,6 +132,7 @@ $.valHooks['xautocomplete'] =
             value = []
         tag=$(el).attr('tags')
         if tag
+            tag = tag + '#' + $(el).attr('name')
             local_tags.remove tag:tag
             for v in value
                 _id = null
