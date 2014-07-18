@@ -1,0 +1,10 @@
+<template name="estadisticas">
+    {{>HMenu}}
+    <h3>Estadísticas</h3>
+    {{#each years}}
+        <div>{{[0]}} => {{[1]}} €</div>
+        {{#each ../months [0]}}
+            <div>{{[0]}} => {{[1]}} €</div>
+        {{/each}}
+    {{/each}}
+</template>

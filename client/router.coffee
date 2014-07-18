@@ -20,6 +20,8 @@ Router.map ->
     @route 'accesoDirecto',
         path: '/acceso-directo'
         controller: @AccesoDirectoController
-
+    @route 'estadisticas',
+        path: '/estadisticas'
+        controller: @EstadisticasController
 
 
