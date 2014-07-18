@@ -15,7 +15,9 @@ Template.listas.events
         $("[formId='"+tag+"']").each (index, element)->
             element = $(element)
             element.val(item[element.attr('name')])
-
+    'click .acceso-directo': (e,t)->
+        _id = $(e.target).attr('_id')
+        Meteor.call "CrearAccesoDirecto", _id
     'click .guardar': (e,t)->
         tag = $(e.target).attr('formId')
         item = {tag: tag}

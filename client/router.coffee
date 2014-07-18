@@ -17,5 +17,9 @@ Router.map ->
     @route 'historic',
         path: '/historic'
         controller: @HistoricController
+    @route 'accesoDirecto',
+        path: '/acceso-directo'
+        controller: @AccesoDirectoController
+
 
 
