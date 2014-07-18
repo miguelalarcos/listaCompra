@@ -6,11 +6,9 @@ Session.set 'xquery', null
 index = -1
 current_input = null
 
-initiated = {}
-
 Template.xautocomplete.helpers
     getName: ->
-        this.tags + '#' + this.name
+        this.tag + '#' + this.name
     getValue: (name) ->
         item = xdata.findOne(name:name)
         if item
@@ -21,17 +19,13 @@ Template.xautocomplete.helpers
         local_tags.remove(tag: this.tags+'#'+this.name)
         for value in (this.value or [])
             local_tags.insert({tag: this.tags+'#'+this.name, value:value})
-        #if not initiated[this.tags + '#' + this.name]
-        #    xdata.insert({name:this.tags + '#' + this.name}) # para qué?
-        #    for value in (this.value or [])
-        #        local_tags.insert({tag: this.tags+'#'+this.name, value:value})
-        #    initiated[this.tags + '#' + this.name] = true
         xdata.insert({name:this.tags + '#' + this.name}) # para qué?
         null
     tags: ->
         local_tags.find({tag:this.tags+'#'+this.name})
     items: (call, tag,  name, funcName) -> # the items that will be shown in the popover
         query = Session.get('xquery')
+        console.log name, '==', current_input
         if name == current_input
             if query != ''
                 Meteor.call call, query, (error, result)->
@@ -106,7 +100,7 @@ Template.xautocomplete.events
             index = -1
         else
             Session.set 'xquery', $(e.target).val()
-            current_input = $(e.target).attr('name')
+            current_input = t.data.tag + '#' + t.data.name #$(e.target).attr('name')
     'click .xclose':(e,t)->
         val = $(e.target).attr('value')
         local_tags.remove({tag: t.data.tags+'#'+t.data.name, value:val})
