@@ -11,6 +11,9 @@ is_owner_or_invited = (userId)->
   {$or : [{email: email(userId)}, {invited: email(userId)}]}
 
 Meteor.methods
+    guardarLugar: (doc)->
+        check(doc, {localidad: String, provincia: String})
+        Meteor.users.update({_id: Meteor.userId()}, {$set: {lugar: doc}})
     block: (tag)->
 
         tag = tags.findOne(tag: tag, invited: email(Meteor.userId()))
@@ -97,6 +100,9 @@ Meteor.methods
         x = is_owner_or_invited(Meteor.userId())
         x['tag'] = doc.tag
         if tags.find(x)
+            lugar = Meteor.users.findOne(Meteor.userId()).lugar
+            if not /.*\(.*\)/.test(doc.market) and lugar
+                doc.market += ' ('+lugar.localidad + ', ' + lugar.provincia+')'
             doc.stored = false
             doc.taken = false
             delete doc.active

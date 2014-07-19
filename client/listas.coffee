@@ -56,11 +56,10 @@ Deps.autorun ->
     item = Session.get 'item-selected'
     if item
         if item.tag == 'mis-tiendas#market'
-            console.log 'llego'
             ret = $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val()
-            console.log ret
+
             ret.push item.doc.name
-            console.log ret
+
             $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val(ret)
             Session.set 'item-selected', null
             return

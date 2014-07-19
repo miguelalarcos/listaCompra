@@ -1,3 +1,9 @@
+.titulo {
+    text-align: center;
+    font-size: 4em;
+    font-family:'Bookman Old Style',Bookman,'URW Bookman L','Palatino Linotype',serif;
+}
+
 .xclose {
     font-size: 2em;
 }

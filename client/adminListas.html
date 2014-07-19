@@ -1,5 +1,10 @@
 <template name="adminListas">
     {{>HMenu}}
+    {{#with lugar}}
+        Localidad: <input type="text" formId="lugar" name="localidad" value="{{localidad}}">
+        Provincia: <input type="text" formId="lugar" name="provincia" value="{{provincia}}">
+        <button class="guardar-lugar" formId="lugar">Guardar</button>
+    {{/with}}
     <table>
         <tr>
             <td>Nombre</td><td>Descripción</td><td>Invitados</td><td>Activa</td><td>Privada</td>

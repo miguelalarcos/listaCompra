@@ -42,7 +42,7 @@ Meteor.publish 'historic',->
     historic.find({tag: {$in: tas}},{reactive:false})
 
 Meteor.publish "userData", ->
-    Meteor.users.find({_id: this.userId}, {fields: {'myMarkets': 1}})
+    Meteor.users.find({_id: this.userId}, {fields: {'myMarkets': 1, 'lugar': 1}})
 
 Meteor.publish "acceso_directo", ->
     x = tags.find(is_owner_or_invited_and_not_blocked(this.userId) ).fetch()

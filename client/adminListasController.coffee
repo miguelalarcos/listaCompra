@@ -4,10 +4,18 @@ class @AdminListasController extends @LoginController
   waitOn: -> [Meteor.subscribe('mis-listas'), Meteor.subscribe("userData")]
   data: ->
         email = Meteor.users.findOne().emails[0].address
+        lugar: Meteor.users.findOne().lugar or {localidad:"", provincia:""}
         listas: tags.find({email: email})
         invited: tags.find({invited: email})
 
 Template.adminListas.events
+  'click .guardar-lugar': (e,t)->
+        formId = $(e.target).attr('formId')
+        doc = {}
+        $("input[formId='"+formId+"']").each (index, el)->
+            el=$(el)
+            doc[el.attr('name')] = el.val()
+        Meteor.call "guardarLugar", doc
   'click .guardar-lista': (e,t)->
         formId = $(e.target).attr('formId')
         doc = {tag: formId}

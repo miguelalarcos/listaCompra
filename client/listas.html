@@ -27,11 +27,13 @@
     <tr class="{{isTaken _id}}">
         <td class="take h2" _id="{{_id}}">{{item}}</td><td>{{quantity}}</td><td>{{price}}</td><td>{{market}}</td>
          {{#if ../../edit}}
+
         <span _id={{_id}} class="hand edit-item glyphicon glyphicon-pencil"></span>
-        <span> </span>
+            &nbsp;&nbsp;
         <span _id={{_id}} class="hand acceso-directo glyphicon glyphicon-repeat"></span>
-        <span> </span>
+            &nbsp;&nbsp;
         <span _id={{_id}} class="hand remove-item glyphicon glyphicon-remove"></span>
+
         {{/if}}
     </tr>
     {{/each}}

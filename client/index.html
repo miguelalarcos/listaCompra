@@ -9,33 +9,41 @@
     {{else}}
         Por favor, introduce tu usuario y contraseña. Si todavía no tienes puedes crearte una cuenta gratis.
     {{/if}}
+    <br><br><br>
+    <br><br><br>
+    <div class="titulo">Tu lista de la compra!</div>
 </template>
 
 <template name="HMenu">
-    <a href="{{pathFor 'login'}}">Login</a>
-    <a href="{{pathFor 'home'}}">Home</a>
-    <a href="{{pathFor 'workingList'}}">Listas</a>
-    <a href="{{pathFor 'despensa'}}">Despensa</a>
-    <a href="{{pathFor 'accesoDirecto'}}">Accesos Directos</a>
-    <a href="{{pathFor 'historic'}}">Histórico</a>
-    <a href="{{pathFor 'estadisticas'}}">Estadísticas</a>
-    <a href="{{pathFor 'adminListas'}}">Administración</a>
+    <ul class="nav nav-pills">
+        <li><a href="{{pathFor 'login'}}">Login</a></li>
+        <li><a href="{{pathFor 'home'}}">Home</a></li>
+        <li><a href="{{pathFor 'workingList'}}">Listas</a></li>
+        <li><a href="{{pathFor 'despensa'}}">Despensa</a></li>
+        <li><a href="{{pathFor 'accesoDirecto'}}">Accesos Directos</a></li>
+        <li><a href="{{pathFor 'historic'}}">Histórico</a></li>
+        <li><a href="{{pathFor 'estadisticas'}}">Estadísticas</a></li>
+        <li><a href="{{pathFor 'adminListas'}}">Administración</a></li>
+    </ul>
     <br>
 </template>
 
 <template name="home">
-    <div class="font-yellow">Un consejo: en la vista de listas puedes seleccionar elementos de la lista con tan sólo clickar sobre el nombre.
+    <div class="titulo">Tu lista de la compra!</div>
+    <br>
+    <div class="font-yellow">Hola :) Espero de veras que esta se convierta en tu aplicación para la gestión
+        de tu consumo doméstico. Además con el tiempo espero que se convierta en la referencia para encontrar
+        los precios más baratos para tu compra diaria. <br> Un consejo: en la vista de listas puedes seleccionar elementos de la lista con tan sólo clickar sobre el nombre.
      Esa es la razón por la que el nombre está en grande :) Una vez seleccionados los elementos que quieres, puedes
      clickar sobre el botón "A la despensa" para mandar los elementos a la despensa. Por favor, introduce antes el
      el precio unitario y la cantidad de compra.<br>
      En la despensa tienes dos opciones: marcar los elementos y mandarlos nuevamente a la lista de la compra o tan sólo
-      vaciar la despensa.<br>Próximamente habrá una pantalla de accesos directos donde clickar en tan sólo un botón para
-      hacer esa compra repetitiva que siempre haces.<br>
+      vaciar la despensa.<br>
     </div>
-    <div>Tus acciones:</div>
-    <div><a href="{{pathFor 'workingList'}}">Tus listas y las listas a las que estás invitado</a></div>
-    <div><a href="{{pathFor 'adminListas'}}">Administra tus listas, crea nuevas e invita a tus amigos</a></div>
-    <div><a href="{{pathFor 'despensa'}}">Mira qué tienes actualmente en tu despensa</a></div>
+    Ahora lo importante es ir a <a href="{{pathFor 'adminListas'}}">administración</a> para crear tu primera lista. Llámala
+    por ejemplo "compra" (qué original ;). Ya puedes ir a la vista de <a href="{{pathFor 'workingList'}}">listas</a> y
+    comenzar a trabajar.<br>Un consejo, puedes compartir la lista de compra con tu pareja para que trabajéis a la vez
+    con la misma lista.
 </template>
 
 <template name="workingList">

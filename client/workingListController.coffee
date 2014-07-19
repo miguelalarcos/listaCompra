@@ -18,7 +18,7 @@ class @WorkingListController extends @LoginController
             ret.push {tag: t.tag, sum: sum}
         else
             ret.push {tag: t.tag, sum: 0}
-    console.log 'ret:', ret
+
     #return
     items: (key)->all[key]
     tags: -> ret #(t.tag for t in tas)

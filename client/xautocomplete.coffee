@@ -25,7 +25,7 @@ Template.xautocomplete.helpers
         local_tags.find({tag:this.tags+'#'+this.name})
     items: (call, tag,  name, funcName) -> # the items that will be shown in the popover
         query = Session.get('xquery')
-        console.log name, '==', current_input
+
         if name == current_input
             if query != ''
                 Meteor.call call, query, (error, result)->
