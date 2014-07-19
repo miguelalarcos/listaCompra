@@ -1,2 +1,0 @@
-redirect a home tras login
-barra horizontal superior de menu

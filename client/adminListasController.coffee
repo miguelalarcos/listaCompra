@@ -19,12 +19,15 @@ Template.adminListas.events
   'click .guardar-lista': (e,t)->
         formId = $(e.target).attr('formId')
         doc = {tag: formId}
-        $("input[formId='"+formId+"']").each (index, el)->
+        for el in t.findAll("[formId='"+formId+"']")
             el=$(el)
-            if el.hasClass('check')
-                doc[el.attr('name')] = el.is(':checked')
-            else
-                doc[el.attr('name')] = el.val()
+            if el.attr('name')
+                if el.hasClass('check')
+                    doc[el.attr('name')] = el.is(':checked')
+                else
+                    doc[el.attr('name')] = el.val()
+        doc.mails = _.map(doc.mails.split(','), (x)->$.trim(x))
+
         Meteor.call "guardarLista", doc
   'click .append-nueva-lista': (e,t)->
         Meteor.call "insertTag", $(".input-nueva-lista").val()
