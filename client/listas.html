@@ -14,7 +14,7 @@
             <td><input formId="{{this.tag}}" name='price' class='number five_chars' type="text"></td>
             <!--<td><input formId="{{this.tag}}" name='market' class="text" type="text"></td>-->
             <td>{{> xautocomplete formId=this.tag name='market' value="" funcName='market' tag=this.tag call='getMarkets' strict='false'}}</td>
-            <td><button formId="{{this.tag}}" class="orange guardar">Guardar</button></td>
+            <td><button formId="{{this.tag}}" class="orange guardar">Añadir</button></td>
             <td><input formId="{{this.tag}}" name='_id' class="text" type="hidden"></td>
         </tr>
         {{/if}}

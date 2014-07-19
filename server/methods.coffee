@@ -3,6 +3,7 @@ tags = @tags
 _market_ = @market
 _item_ = @item
 _acceso_directo_ = @accesoDirecto
+_messages_ = @messages
 
 email = (userId)->
   Meteor.users.findOne(_id: userId).emails[0].address
@@ -44,6 +45,30 @@ Meteor.methods
             delete doc.stored
             historic.insert(doc)
         lista.update({taken:true, stored: true, tag : {$in: tas}}, {$set: {timestamp: moment().startOf('day').unix(), stored: false, taken:false}}, {multi:true})
+    servicio:->
+        cond = {$and : [{private: false}, is_owner_or_invited(Meteor.userId())]}
+        tas = (t.tag for t in tags.find(cond).fetch())
+        for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
+            if doc.market
+                if not _market_.findOne(name:doc.market)
+                    _market_.insert({name:doc.market, active: true})
+
+                Meteor.users.update({_id: Meteor.userId()}, {$addToSet: {myMarkets: doc.market}})
+                it = _item_.findOne({item: doc.item, price: doc.price, market: doc.market, active: true})
+                timestamp = moment().startOf('day').unix()
+                if it
+                    _item_.update({_id:it._id}, {$set:{timestamp:timestamp}, $inc: {times: 1}})
+                else
+                    _item_.insert({email: email(Meteor.userId()), timestamp:timestamp, item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
+        tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
+        for doc in lista.find({taken:true, stored: false, tag : {$in: tas}}).fetch()
+            delete doc._id
+            delete doc.taken
+            delete doc.stored
+            doc.timestamp = moment().startOf('day').unix()
+            historic.insert(doc)
+        lista.remove({taken:true, stored: false, tag : {$in: tas}})
+
     almacenar: ->
         cond = {$and : [{private: false}, is_owner_or_invited(Meteor.userId())]}
         tas = (t.tag for t in tags.find(cond).fetch())
@@ -111,7 +136,7 @@ Meteor.methods
                 doc.market += ' ('+lugar.localidad + ', ' + lugar.provincia+')'
             doc.stored = false
             doc.taken = false
-            #delete doc.active
+
             if doc._id
               _id = doc._id
               delete doc._id
@@ -153,3 +178,7 @@ Meteor.methods
                 ms.push m
         Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: ms}})
 
+    closeMessages: (m_ids) ->
+        #check(m_ids, [String])
+        console.log '-->', m_ids
+        _messages_.remove({_id: {$in: m_ids}})

@@ -1,8 +1,9 @@
 tags = @tags
 lista = @lista
+_messages_ = @messages
 
 class @WorkingListController extends @LoginController
-  waitOn: ->  [Meteor.subscribe('items'), Meteor.subscribe('accesible_list')]
+  waitOn: ->  [Meteor.subscribe('items'), Meteor.subscribe('accesible_list'), Meteor.subscribe('messages')]
   data: ->
     tas = tags.find({active: true}).fetch()
     all = lista.find({stored: false}).fetch()
@@ -23,10 +24,13 @@ class @WorkingListController extends @LoginController
     items: (key)->all[key]
     tags: -> ret #(t.tag for t in tas)
     edit: true
+    messages: _messages_.find({})
 
 Template.workingList.events
   'click .almacenar': (e,t)->
-    Meteor.call "almacenar"
+      Meteor.call "almacenar"
+  'click .servicio': (e,t)->
+      Meteor.call 'servicio'
 
 Template.workingList.isVisibleButton = ->
     items = lista.find({stored: false, taken: true}).fetch()
@@ -35,6 +39,10 @@ Template.workingList.isVisibleButton = ->
             return false
     return true
 
-
+Deps.autorun ->
+    ms = (x._id for  x in _messages_.find({}).fetch())
+    f = ()->
+        Meteor.call 'closeMessages', ms
+    Meteor.setTimeout f, 5000
 
 

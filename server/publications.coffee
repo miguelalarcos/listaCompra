@@ -3,6 +3,7 @@ historic= @historic
 lista = @lista
 tags = @tags
 _acceso_directo_ = @accesoDirecto
+_messages_ = @messages
 
 #Meteor.publish 'historic', ->
 #    historic_allowed.find({invited: this.userId})
@@ -48,3 +49,6 @@ Meteor.publish "acceso_directo", ->
     x = tags.find(is_owner_or_invited_and_not_blocked(this.userId) ).fetch()
     tas = (t.tag for t in x)
     _acceso_directo_.find({tag: {$in: tas}})
+
+Meteor.publish "messages", ->
+    _messages_.find(userId: this.userId)

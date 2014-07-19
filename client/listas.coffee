@@ -33,7 +33,7 @@ Template.listas.events
                     item[el.attr('name')] = el.val()
 
         if item.item
-            Meteor.call "GuardarItem", item
+            Meteor.call "GuardarItem", item, false
             $("[formId='"+tag+"']").each (index, el)->
                 if $(el).attr('name') != 'market'
                     $(el).val("")
