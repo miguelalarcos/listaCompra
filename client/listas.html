@@ -1,6 +1,6 @@
 <template name="listas">
     {{#each tags}}
-    <h2 tag="{{this.tag}}" class="head-lista">{{this.tag}}</h2><!--¿alguien utiliza tag aqui?-->
+    <h2 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}</h2><!--¿alguien utiliza tag aqui?-->
     {{#if ../edit}}<h2>{{this.sum}} €</h2>{{/if}}
     <table tag="{{this.tag}}">
         <tr>

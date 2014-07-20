@@ -16,9 +16,9 @@ class @WorkingListController extends @LoginController
             for item in all[t.tag]
                 if item.quantity and item.price
                     sum += item.quantity*item.price
-            ret.push {tag: t.tag, sum: sum}
+            ret.push {tag: t.tag, sum: sum, private: t.private}
         else
-            ret.push {tag: t.tag, sum: 0}
+            ret.push {tag: t.tag, sum: 0, private: t.private}
 
     #return
     items: (key)->all[key]

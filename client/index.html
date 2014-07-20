@@ -11,8 +11,16 @@
     {{/if}}
     <br><br><br>
     <br><br><br>
-    <div class="titulo">Tu lista de la compra!</div>
+    {{> titulo}}
 </template>
+
+<template name="titulo">
+    <div class="titulo">ContaDom!</div>
+    <div class=h3>Tu lista de la compra.</div>
+    <div class=h3>Tu contabilidad doméstica.</div>
+    <div class=h3>Tu buscador de precios baratos.</div>
+</template>
+
 
 <template name="HMenu">
     <ul class="nav nav-pills">
@@ -29,9 +37,10 @@
 </template>
 
 <template name="home">
-    <div class="titulo">Tu lista de la compra!</div>
+    {{> titulo}}
     <br>
-    <div class="font-yellow">Hola :) Espero de veras que esta se convierta en tu aplicación para la gestión
+    <div style="margin-left: auto;margin-right: auto;width: 60em">
+    <div class="font-white">Hola :) Espero de veras que esta se convierta en tu aplicación para la gestión
         de tu consumo doméstico. Además con el tiempo espero que se convierta en la referencia para encontrar
         los precios más baratos para tu compra diaria. <br> Un consejo: en la vista de listas puedes seleccionar elementos de la lista con tan sólo clickar sobre el nombre.
      Esa es la razón por la que el nombre está en grande :) Una vez seleccionados los elementos que quieres, puedes
@@ -43,7 +52,9 @@
     Ahora lo importante es ir a <a href="{{pathFor 'adminListas'}}">administración</a> para crear tu primera lista. Llámala
     por ejemplo "compra" (qué original ;). Ya puedes ir a la vista de <a href="{{pathFor 'workingList'}}">listas</a> y
     comenzar a trabajar.<br>Un consejo, puedes compartir la lista de compra con tu pareja para que trabajéis a la vez
-    con la misma lista.
+    con la misma lista.<br><br>
+    Para cualquier duda, por favor, contacta con Miguel Ángel en miguel.alarcos@gmail.com
+    </div>
 </template>
 
 <template name="workingList">

@@ -128,7 +128,6 @@ Meteor.methods
             if tags.find(x)
                 _acceso_directo_.remove(_id:_id)
     GuardarItem: (doc)->
-        console.log doc
         check(doc, {tag: String, item: String, quantity: Match.Optional(Number), price: Number, market: String, _id: Match.Optional(String)})
 
         if not doc

@@ -33,7 +33,6 @@ Template.listas.events
                     item[el.attr('name')] = el.val()
 
         if item.item
-            console.log 'antes item', item
             Meteor.call "GuardarItem", item
             $("[formId='"+tag+"']").each (index, el)->
                 if $(el).attr('name') != 'market'
@@ -50,13 +49,18 @@ Template.itemxtag.isTaken = (_id) ->
     else
         ''
 
+Template.listas.head_lista = ->
+    if this.private
+        'head-lista-private'
+    else
+        'head-lista'
+
 Template.listas.rendered = ->
     $(this.findAll('.xautocomplete-tag')).xautocomplete()
 
 # debe estar en un fichero llamado deps.autorun.coffee
 Deps.autorun ->
     item = Session.get 'item-selected'
-    console.log 'item->',item
     if item
         if item.tag == 'mis-tiendas#market'
             ret = $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val()
@@ -65,7 +69,6 @@ Deps.autorun ->
             Session.set 'item-selected', null
             return
         for t in _tags_.find({active: true}).fetch()
-            console.log item.tag, t.tag+'#item'
             if item.tag == t.tag+'#item'
                 delete item.doc.email
                 delete item.doc.timestamp

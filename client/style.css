@@ -16,8 +16,8 @@
     background-color: #ffff00;
 }
 
-.font-yellow {
-    color: greenyellow;
+.font-white {
+    color: #ffffff;
 }
 
 .hand {
@@ -34,6 +34,11 @@
 
 .head-lista {
     background-color: green;
+}
+
+
+.head-lista-private {
+    background-color: darkseagreen;
 }
 
 body{
