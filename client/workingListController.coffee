@@ -40,8 +40,8 @@ Template.workingList.isVisibleButton = ->
     return true
 
 Deps.autorun ->
-    ms = (x._id for  x in _messages_.find({}).fetch())
-    f = ()->
+    ms = (x._id for  x in _messages_.find().fetch())
+    f = ->
         Meteor.call 'closeMessages', ms
     Meteor.setTimeout f, 5000
 

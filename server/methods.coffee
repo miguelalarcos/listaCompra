@@ -67,7 +67,8 @@ Meteor.methods
             delete doc.stored
             doc.timestamp = moment().startOf('day').unix()
             historic.insert(doc)
-        lista.remove({taken:true, stored: false, tag : {$in: tas}})
+        if lista.remove({taken:true, stored: false, tag : {$in: tas}})
+            _messages_.insert(userId: Meteor.userId(), text: "Se han guardado los servicios indicados.")
 
     almacenar: ->
         cond = {$and : [{private: false}, is_owner_or_invited(Meteor.userId())]}
@@ -86,7 +87,8 @@ Meteor.methods
                     _item_.insert({email: email(Meteor.userId()), timestamp:timestamp, item: doc.item, price: doc.price, market: doc.market, active: true, times: 1})
 
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
-        lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
+        if lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
+            _messages_.insert(setUserId: Meteor.userId(), text: "Se han almacenado productos.")
     take: (_id)->
         check(_id, String)
         userId = Meteor.userId()
@@ -104,6 +106,7 @@ Meteor.methods
         if tags.find(x)
             if item.market and item.price and item.quantity and item.item and item.tag
                 _acceso_directo_.insert({tag: item.tag, market: item.market, price: item.price, quantity: item.quantity, item: item.item})
+                _messages_.insert({userId: Meteor.userId(), text: "Se ha creado un acceso directo."})
     InsertarAccesoDirecto: (_id)->
         check(_id, String)
         ad = _acceso_directo_.findOne(_id)
@@ -125,7 +128,8 @@ Meteor.methods
             if tags.find(x)
                 _acceso_directo_.remove(_id:_id)
     GuardarItem: (doc)->
-        check(doc, {tag: String, market: String, item: String, price: Number, quantity: Number, _id: Match.Optional(String)})
+        #check(doc, {tag: String, market: String, item: String, price: Number, quantity: Number, _id: Match.Optional(String)})
+        check(doc, {email: String, timestamp: Number, item: String, price: Number, market: String, active: Boolean, times: Number, tag: String, _id: Match.Optional(String)})
         if not doc
             return
         x = is_owner_or_invited(Meteor.userId())
@@ -179,6 +183,5 @@ Meteor.methods
         Meteor.users.update({_id: Meteor.userId()}, {$set: {myMarkets: ms}})
 
     closeMessages: (m_ids) ->
-        #check(m_ids, [String])
-        console.log '-->', m_ids
+        check(m_ids, [String])
         _messages_.remove({_id: {$in: m_ids}})

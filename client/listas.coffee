@@ -55,16 +55,16 @@ Template.listas.rendered = ->
 # debe estar en un fichero llamado deps.autorun.coffee
 Deps.autorun ->
     item = Session.get 'item-selected'
+    console.log 'item->',item
     if item
         if item.tag == 'mis-tiendas#market'
             ret = $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val()
-
             ret.push item.doc.name
-
             $(".xautocomplete-tag[formId='mis-tiendas'][name='market']").val(ret)
             Session.set 'item-selected', null
             return
         for t in _tags_.find({active: true}).fetch()
+            console.log item.tag, t.tag+'#item'
             if item.tag == t.tag+'#item'
                 Meteor.call "GuardarItem", item.doc
                 break
