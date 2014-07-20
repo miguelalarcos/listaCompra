@@ -27,7 +27,7 @@ Template.listas.events
                 if el.hasClass('number')
                     value = parseFloat(el.val())
                     if _.isNaN(value)
-                        return
+                        value = undefined
                     item[el.attr('name')] = value
                 else
                     item[el.attr('name')] = el.val()
@@ -36,7 +36,10 @@ Template.listas.events
             Meteor.call "GuardarItem", item
             $("[formId='"+tag+"']").each (index, el)->
                 if $(el).attr('name') != 'market'
-                    $(el).val("")
+                    if $(el).attr('name') == 'quantity'
+                        $(el).val('1')
+                    else
+                        $(el).val("")
 
     'click .remove-item': (e,t)->
         _id = $(e.target).attr('_id')
