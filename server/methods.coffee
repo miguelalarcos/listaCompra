@@ -88,7 +88,7 @@ Meteor.methods
 
         tas = (t.tag for t in tags.find(is_owner_or_invited(Meteor.userId())).fetch())
         if lista.update({taken:true, stored: false, tag : {$in: tas}}, {$set: {stored: true, taken:false, timestamp: moment().unix()}}, {multi:true})
-            _messages_.insert(setUserId: Meteor.userId(), text: "Se han almacenado productos.")
+            _messages_.insert(userId: Meteor.userId(), text: "Se han almacenado productos.")
     take: (_id)->
         check(_id, String)
         userId = Meteor.userId()
@@ -128,8 +128,9 @@ Meteor.methods
             if tags.find(x)
                 _acceso_directo_.remove(_id:_id)
     GuardarItem: (doc)->
-        #check(doc, {tag: String, market: String, item: String, price: Number, quantity: Number, _id: Match.Optional(String)})
-        check(doc, {email: String, timestamp: Number, item: String, price: Number, market: String, active: Boolean, times: Number, tag: String, _id: Match.Optional(String)})
+        console.log doc
+        check(doc, {tag: String, item: String, quantity: Match.Optional(Number), price: Number, market: String, _id: Match.Optional(String)})
+
         if not doc
             return
         x = is_owner_or_invited(Meteor.userId())

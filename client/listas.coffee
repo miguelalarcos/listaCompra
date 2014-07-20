@@ -21,7 +21,7 @@ Template.listas.events
     'click .guardar': (e,t)->
         tag = $(e.target).attr('formId')
         item = {tag: tag}
-        $("[formId='"+tag+"']").each (index, el)->
+        for el in t.findAll("[formId='"+tag+"']")
             el=$(el)
             if el.attr('name')
                 if el.hasClass('number')
@@ -33,7 +33,8 @@ Template.listas.events
                     item[el.attr('name')] = el.val()
 
         if item.item
-            Meteor.call "GuardarItem", item, false
+            console.log 'antes item', item
+            Meteor.call "GuardarItem", item
             $("[formId='"+tag+"']").each (index, el)->
                 if $(el).attr('name') != 'market'
                     $(el).val("")
@@ -66,6 +67,10 @@ Deps.autorun ->
         for t in _tags_.find({active: true}).fetch()
             console.log item.tag, t.tag+'#item'
             if item.tag == t.tag+'#item'
+                delete item.doc.email
+                delete item.doc.timestamp
+                delete item.doc.active
+                delete item.doc.times
                 Meteor.call "GuardarItem", item.doc
                 break
             else if item.tag == t.tag+'#market'

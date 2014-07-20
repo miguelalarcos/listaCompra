@@ -54,7 +54,7 @@ Template.xautocomplete.events
             parent = $(e.target).parent().parent().parent()
             formId= parent.attr('formId')
             name = parent.attr('name')
-
+            selected.doc.tag = formId
             Session.set "item-selected", {tag: formId+'#'+name, doc: selected.doc}
         local_items.remove({})
         Session.set('xquery','')
