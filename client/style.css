@@ -12,9 +12,11 @@
     font-size: 2em;
 }
 
-.taken {
+.taken > td:first-child {
+    border-radius: 10px;
     background-color: #ffff00;
 }
+
 
 .font-white {
     color: #ffffff;
@@ -34,11 +36,15 @@
 
 .head-lista {
     background-color: green;
+    border-radius: 10px;
+    width: 50%;
 }
 
 
 .head-lista-private {
     background-color: darkseagreen;
+    border-radius: 10px;
+    width: 50%;
 }
 
 body{
