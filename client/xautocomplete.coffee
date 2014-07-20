@@ -70,21 +70,21 @@ Template.xautocomplete.events
             count = local_items.find({}).count() - 1
             if index == count then index = 0 else index += 1
             local_items.update({index:index}, {$set:{selected: 'selected'}})
-        else if e.keyCode == 13
+        else if e.keyCode in [13,39]
             $(e.target).parent().find('.popover2').focus()
-            if t.data.tags # tag mode
-
-                selected = local_items.findOne(selected: 'selected')
-                if selected
-                    value = selected.doc.name
-                else
-                    if t.data.strict == 'true'
-                        return
+            if t.data.tags
+                if e.keyCode == 13 # tag mode
+                    selected = local_items.findOne(selected: 'selected')
+                    if selected
+                        value = selected.doc.name
                     else
-                        value = $(e.target).val()
-                tag = t.data.tags + '#' + t.data.name
-                if not local_tags.findOne({tag: tag, value:value})
-                    local_tags.insert({tag: tag, value:value})
+                        if t.data.strict == 'true'
+                            return
+                        else
+                            value = $(e.target).val()
+                    tag = t.data.tags + '#' + t.data.name
+                    if not local_tags.findOne({tag: tag, value:value})
+                        local_tags.insert({tag: tag, value:value})
             else
                 selected = local_items.findOne selected: 'selected'
                 if selected
@@ -93,7 +93,10 @@ Template.xautocomplete.events
                     parent = $(e.target).parent()
                     formId = parent.attr('formId')
                     name = parent.attr('name')
-                    Session.set "item-selected", {tag: formId+'#'+name,doc:selected.doc}
+                    if e.keyCode == 13
+                        Session.set "item-selected", {tag: formId+'#'+name,doc:selected.doc}
+                    if e.keyCode == 39
+                        Session.set "item-selected-tab", {tag: formId+'#'+name,doc:selected.doc}
             # close popover
             local_items.remove({})
             Session.set('xquery','')
