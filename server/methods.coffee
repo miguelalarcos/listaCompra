@@ -127,6 +127,15 @@ Meteor.methods
             x['tag'] = tag
             if tags.find(x)
                 _acceso_directo_.remove(_id:_id)
+    GuardarQuantityItem: (_id, quantity)->
+        check(_id, String)
+        check(quantity, Number)
+        tag = lista.findOne(_id).tag
+        x = is_owner_or_invited(Meteor.userId())
+        x['tag'] =tag
+        if tags.find(x)
+            lista.update({_id:_id}, {$set: {quantity: quantity}})
+
     GuardarPrecioItem: (_id, price)->
         check(_id, String)
         check(price, Number)

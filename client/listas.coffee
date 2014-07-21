@@ -93,16 +93,33 @@ Deps.autorun ->
 @market = (item) -> '<td>'+item.name+'</td>'
 
 Session.set "EditInlinePrice", null
+Session.set "EditInlineQuantity", null
 
 Template.itemxtag.events
     'click .item-price': (e,t)->
+        console.log this
         Session.set "EditInlinePrice", this._id
         Meteor.setTimeout ->
             $(e.target).children('input')[0].focus()
 
     'blur .item-price': (e,t)->
+        console.log 'blur'
         Session.set "EditInlinePrice", null
         Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find(".price-inline[_id='"+this._id+"']")).val())
 
+    'click .item-quantity': (e,t)->
+        Session.set "EditInlineQuantity", this._id
+        Meteor.setTimeout ->
+            $(e.target).children('input')[0].focus()
+
+    'blur .item-quantity': (e,t)->
+        Session.set "EditInlineQuantity", null
+        Meteor.call "GuardarQuantityItem", this._id, parseFloat($(t.find(".quantity-inline[_id='"+this._id+"']")).val())
+
+
+
 Template.itemxtag.edit_in_line_price = (_id, isEditable) ->
     Session.get("EditInlinePrice") == _id and isEditable
+
+Template.itemxtag.edit_in_line_quantity = (_id, isEditable) ->
+    Session.get("EditInlineQuantity") == _id and isEditable

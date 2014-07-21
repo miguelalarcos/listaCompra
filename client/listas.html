@@ -1,8 +1,10 @@
 <template name="listas">
     {{#each tags}}
     <h2 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}</h2>
-    {{#if ../edit}}<button tag="{{this.tag}}" class="seleccionar-todo black">Seleccionar todo</button>{{/if}}
-    {{#if ../edit}}<h2>{{this.sum}} €</h2>{{/if}}
+    {{#if ../edit}}
+        <button tag="{{this.tag}}" class="seleccionar-todo black">Seleccionar todo</button>
+        <h2>{{this.sum}} €</h2>
+    {{/if}}
     <table tag="{{this.tag}}">
         <tr>
             <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
@@ -13,7 +15,6 @@
             <td>{{> xautocomplete formId=this.tag name='item' value="" funcName='referencias' tag=this.tag call='getItems' strict='false'}}</td>
             <td><input formId="{{this.tag}}" name='quantity' class='number five_chars' type="text"></td>
             <td><input formId="{{this.tag}}" name='price' class='number five_chars' type="text"></td>
-            <!--<td><input formId="{{this.tag}}" name='market' class="text" type="text"></td>-->
             <td>{{> xautocomplete formId=this.tag name='market' value="" funcName='market' tag=this.tag call='getMarkets' strict='false'}}</td>
             <td><button formId="{{this.tag}}" class="orange guardar">Añadir</button></td>
             <td><input formId="{{this.tag}}" name='_id' class="text" type="hidden"></td>
@@ -26,15 +27,22 @@
 <template name="itemxtag">
     {{#each ../items this.tag}}
     <tr class="{{isTaken _id}}">
-        <td class="take h2" _id="{{_id}}">{{item}}</td>
-        <td>{{quantity}}</td>
-        <td class="item-price">
-            {{#if edit_in_line_price _id ../../edit}}
+        <td class="hand take h2" _id="{{_id}}">{{item}}</td>
+        {{#if edit_in_line_quantity _id ../../edit}}
+            <td class="hand item-quantity">
+                <input type="text" _id={{_id}} class='quantity-inline number five_chars' value="{{quantity}}">
+            </td>
+        {{else}}
+            <td>{{quantity}}</td>
+        {{/if}}
+        {{#if edit_in_line_price _id ../../edit}}
+            <td class="hand item-price">
                 <input type="text" _id={{_id}} class='price-inline number five_chars' value="{{price}}">
-            {{else}}
-                {{price}}
-            {{/if}}
-        </td>
+            </td>
+        {{else}}
+            <td>{{price}}</td>
+        {{/if}}
+        
         <td>{{market}}</td>
          {{#if ../../edit}}
 

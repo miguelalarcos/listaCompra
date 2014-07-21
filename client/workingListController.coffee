@@ -11,7 +11,7 @@ class @WorkingListController extends @LoginController
     #total por tag
     ret = []
     invited = false
-    console.log all
+
     for t in tas
         #
         email = Meteor.users.findOne().emails[0].address
