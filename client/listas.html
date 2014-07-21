@@ -25,7 +25,16 @@
 <template name="itemxtag">
     {{#each ../items this.tag}}
     <tr class="{{isTaken _id}}">
-        <td class="take h2" _id="{{_id}}">{{item}}</td><td>{{quantity}}</td><td>{{price}}</td><td>{{market}}</td>
+        <td class="take h2" _id="{{_id}}">{{item}}</td>
+        <td>{{quantity}}</td>
+        <td class="item-price">{{#if edit_in_line_price}}
+            <input type="text" _id={{_id}} class='price-inline number five_chars' value="{{price}}">
+            {{echo this}}
+            {{else}}
+            {{price}}
+            {{/if}}
+        </td>
+        <td>{{market}}</td>
          {{#if ../../edit}}
 
         <span _id={{_id}} class="hand edit-item glyphicon glyphicon-pencil"></span>

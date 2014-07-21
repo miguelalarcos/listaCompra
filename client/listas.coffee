@@ -86,3 +86,16 @@ Deps.autorun ->
     "<td><b>" + item.price + "</b></td><td>"+ item.item + '&nbsp;</td><td>'+ item.market + '&nbsp;</td><td>' + moment.unix(item.timestamp).format('DD-MM-YYYY') + '</td><td align="right"><span class=badge>' + item.times+'</span></td>'
 
 @market = (item) -> '<td>'+item.name+'</td>'
+
+Session.set "EditInlinePrice", false
+
+Template.itemxtag.events
+    'click .item-price': (e,t)->
+        val = Session.get "EditInlinePrice"
+        if val == false
+            Session.set "EditInlinePrice", true
+    'blur .item-price': (e,t)->
+        Session.set "EditInlinePrice", false
+        Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find('.price-inline')).val())
+
+Template.itemxtag.edit_in_line_price = -> Session.get "EditInlinePrice"
