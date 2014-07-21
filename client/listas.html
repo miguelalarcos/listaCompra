@@ -27,11 +27,11 @@
     <tr class="{{isTaken _id}}">
         <td class="take h2" _id="{{_id}}">{{item}}</td>
         <td>{{quantity}}</td>
-        <td class="item-price">{{#if edit_in_line_price}}
-            <input type="text" _id={{_id}} class='price-inline number five_chars' value="{{price}}">
-            {{echo this}}
+        <td class="item-price">
+            {{#if edit_in_line_price _id}}
+                <input type="text" _id={{_id}} class='price-inline number five_chars' value="{{price}}">
             {{else}}
-            {{price}}
+                {{price}}
             {{/if}}
         </td>
         <td>{{market}}</td>

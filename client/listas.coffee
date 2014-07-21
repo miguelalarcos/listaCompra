@@ -87,15 +87,14 @@ Deps.autorun ->
 
 @market = (item) -> '<td>'+item.name+'</td>'
 
-Session.set "EditInlinePrice", false
+Session.set "EditInlinePrice", null
 
 Template.itemxtag.events
     'click .item-price': (e,t)->
-        val = Session.get "EditInlinePrice"
-        if val == false
-            Session.set "EditInlinePrice", true
+        Session.set "EditInlinePrice", this._id
     'blur .item-price': (e,t)->
-        Session.set "EditInlinePrice", false
-        Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find('.price-inline')).val())
+        Session.set "EditInlinePrice", null
+        Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find(".price-inline[_id='"+this._id+"']")).val())
 
-Template.itemxtag.edit_in_line_price = -> Session.get "EditInlinePrice"
+Template.itemxtag.edit_in_line_price = (_id) ->
+    Session.get("EditInlinePrice") == _id
