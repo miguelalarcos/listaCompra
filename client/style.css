@@ -20,6 +20,7 @@
 
 .font-white {
     color: #ffffff;
+    font-family:'Bookman Old Style',Bookman,'URW Bookman L','Palatino Linotype',serif;
 }
 
 .hand {
@@ -35,7 +36,7 @@
 }
 
 .head-lista {
-    background-color: green;
+    background-color: #39F051;
     border-radius: 10px;
     width: 50%;
 }
@@ -43,6 +44,12 @@
 
 .head-lista-private {
     background-color: darkseagreen;
+    border-radius: 10px;
+    width: 50%;
+}
+
+.head-lista-invited {
+    background-color: #E1AE21;
     border-radius: 10px;
     width: 50%;
 }

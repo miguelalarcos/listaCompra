@@ -1,6 +1,7 @@
 <template name="listas">
     {{#each tags}}
-    <h2 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}</h2><!--¿alguien utiliza tag aqui?-->
+    <h2 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}</h2>
+    {{#if ../edit}}<button tag="{{this.tag}}" class="seleccionar-todo black">Seleccionar todo</button>{{/if}}
     {{#if ../edit}}<h2>{{this.sum}} €</h2>{{/if}}
     <table tag="{{this.tag}}">
         <tr>
@@ -28,7 +29,7 @@
         <td class="take h2" _id="{{_id}}">{{item}}</td>
         <td>{{quantity}}</td>
         <td class="item-price">
-            {{#if edit_in_line_price _id}}
+            {{#if edit_in_line_price _id ../../edit}}
                 <input type="text" _id={{_id}} class='price-inline number five_chars' value="{{price}}">
             {{else}}
                 {{price}}

@@ -2,6 +2,9 @@ _tags_ = @tags
 Session.set 'item-selected', null
 
 Template.listas.events
+    'click .seleccionar-todo': (e,t)->
+        tag = $(e.target).attr('tag')
+        Meteor.call "SeleccionarTodo", tag
     'keyup input:not([nested])': (e,t)->
         if e.keyCode == 13
             $('.guardar').click()
@@ -55,6 +58,8 @@ Template.itemxtag.isTaken = (_id) ->
 Template.listas.head_lista = ->
     if this.private
         'head-lista-private'
+    else if this.invited
+        'head-lista-invited'
     else
         'head-lista'
 
@@ -92,9 +97,12 @@ Session.set "EditInlinePrice", null
 Template.itemxtag.events
     'click .item-price': (e,t)->
         Session.set "EditInlinePrice", this._id
+        Meteor.setTimeout ->
+            $(e.target).children('input')[0].focus()
+
     'blur .item-price': (e,t)->
         Session.set "EditInlinePrice", null
         Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find(".price-inline[_id='"+this._id+"']")).val())
 
-Template.itemxtag.edit_in_line_price = (_id) ->
-    Session.get("EditInlinePrice") == _id
+Template.itemxtag.edit_in_line_price = (_id, isEditable) ->
+    Session.get("EditInlinePrice") == _id and isEditable

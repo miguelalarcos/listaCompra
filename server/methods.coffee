@@ -193,3 +193,7 @@ Meteor.methods
     closeMessages: (m_ids) ->
         check(m_ids, [String])
         _messages_.remove({_id: {$in: m_ids}})
+    SeleccionarTodo: (tag)->
+        check(tag, String)
+        if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(Meteor.userId())]})
+            lista.update({tag:tag, taken:false, stored: false}, {$set: {taken:true}}, {multi:true})
