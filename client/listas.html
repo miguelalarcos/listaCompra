@@ -28,21 +28,20 @@
     {{#each ../items this.tag}}
     <tr class="{{isTaken _id}}">
         <td class="hand take h2" _id="{{_id}}">{{item}}</td>
-        {{#if edit_in_line_quantity _id ../../edit}}
-            <td class="hand item-quantity">
+        <td class="hand item-quantity">
+            {{#if edit_in_line_quantity _id ../../edit}}
                 <input type="text" _id={{_id}} class='quantity-inline number five_chars' value="{{quantity}}">
-            </td>
-        {{else}}
-            <td>{{quantity}}</td>
-        {{/if}}
-        {{#if edit_in_line_price _id ../../edit}}
-            <td class="hand item-price">
+            {{else}}
+                {{quantity}}
+            {{/if}}
+        </td>
+        <td class="hand item-price">
+            {{#if edit_in_line_price _id ../../edit}}
                 <input type="text" _id={{_id}} class='price-inline number five_chars' value="{{price}}">
-            </td>
-        {{else}}
-            <td>{{price}}</td>
-        {{/if}}
-        
+            {{else}}
+                {{price}}
+            {{/if}}
+        </td>
         <td>{{market}}</td>
          {{#if ../../edit}}
 
