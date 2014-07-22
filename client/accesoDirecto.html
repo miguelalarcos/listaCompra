@@ -1,7 +1,7 @@
 <template name="accesoDirecto">
     {{>HMenu}}
     {{#each accesos}}
-        <button class='insertar-acceso-directo' _id="{{_id}}">{{tag}}, {{item}}</button>
+        <button class='insertar-acceso-directo' _id="{{_id}}">{{item}} {{price}}</button>
         <span _id={{_id}} class="hand remove-acceso-directo glyphicon glyphicon-remove"></span>
     {{/each}}
 </template>

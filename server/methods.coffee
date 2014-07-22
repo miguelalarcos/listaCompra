@@ -153,7 +153,7 @@ Meteor.methods
         x['tag'] = doc.tag
         if tags.find(x)
             lugar = Meteor.users.findOne(Meteor.userId()).lugar
-            if not /.*\(.*\)/.test(doc.market) and lugar and doc.market != ''
+            if not /.*\(.*\)/.test(doc.market) and lugar and doc.market != '' and doc.market is not undefined
                 doc.market += ' ('+lugar.localidad + ', ' + lugar.provincia+')'
             doc.stored = false
             doc.taken = false
@@ -204,5 +204,16 @@ Meteor.methods
         _messages_.remove({_id: {$in: m_ids}})
     SeleccionarTodo: (tag)->
         check(tag, String)
-        if tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(Meteor.userId())]})
+        if tag and tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(Meteor.userId())]})
             lista.update({tag:tag, taken:false, stored: false}, {$set: {taken:true}}, {multi:true})
+    SetMarkets: (tag, value)->
+        check(tag, String)
+        check(value, String)
+        lugar = Meteor.users.findOne(Meteor.userId()).lugar
+        if not /.*\(.*\)/.test(value) and lugar and value != '' and value is not undefined
+            value += ' ('+lugar.localidad + ', ' + lugar.provincia+')'
+        if tag and tags.findOne( {$and:[{tag:tag}, is_owner_or_invited(Meteor.userId())]})
+            lista.update({tag:tag, stored: false}, {$set: {market:value}}, {multi:true})
+        if not _market_.findOne(name:value)
+            _market_.insert({name:value, active: true})
+        Meteor.users.update({_id: Meteor.userId()}, {$addToSet: {myMarkets: value}})

@@ -2,12 +2,27 @@ _tags_ = @tags
 Session.set 'item-selected', null
 
 Template.listas.events
+    'click .set-markets': (e,t)->
+        tag = $(e.target).attr('tag')
+        value = $("[formId='"+tag+"'][name='market']").val()
+        Meteor.call 'SetMarkets', tag, value
     'click .seleccionar-todo': (e,t)->
         tag = $(e.target).attr('tag')
         Meteor.call "SeleccionarTodo", tag
-    'keyup input:not([nested])': (e,t)->
-        if e.keyCode == 13
-            $('.guardar').click()
+    #'keyup input:not([nested])': (e,t)->
+    'keyup input': (e,t)->
+        flag1=false
+        flag2=false
+        it = Session.get('item-selected')
+        if it and it.tag == it.doc.tag + '#item'
+            flag1=true
+        it = Session.get('item-selected-tab')
+        if it and it.tag == it.doc.tag + '#item'
+            flag2=true
+        if e.keyCode == 13 and not flag1 and not flag2
+            formId=$(e.target).attr('formId_nested')
+            $(".guardar[formId='"+formId+"']").click()
+
     'click td.take':(e,t)->
         _id = $(e.target).attr('_id')
         Meteor.call('take', _id)
@@ -17,7 +32,10 @@ Template.listas.events
         item = lista.findOne(_id:_id)
         $("[formId='"+tag+"']").each (index, element)->
             element = $(element)
-            element.val(item[element.attr('name')])
+            value = item[element.attr('name')]
+            if element.attr('name') != 'market' or value isnt undefined
+                element.val(value)
+
     'click .acceso-directo': (e,t)->
         _id = $(e.target).attr('_id')
         Meteor.call "CrearAccesoDirecto", _id
@@ -43,6 +61,8 @@ Template.listas.events
                         $(el).val('1')
                     else
                         $(el).val("")
+        $("[formId='"+tag+"'][name='item']>[nested]").focus()
+        console.log $("[formId='"+tag+"'][name='item']>[nested]").get(0)
 
     'click .remove-item': (e,t)->
         _id = $(e.target).attr('_id')
@@ -86,6 +106,7 @@ Deps.autorun ->
                 break
             else if item.tag == t.tag+'#market'
                 $(".xautocomplete-tag[formId='"+t.tag+"'][name='market']").val(item.doc.name)
+    Session.set 'item-selected', null
 
 @referencias = (item)->
     "<td><b>" + item.price + "</b></td><td>"+ item.item + '&nbsp;</td><td>'+ item.market + '&nbsp;</td><td>' + moment.unix(item.timestamp).format('DD-MM-YYYY') + '</td><td align="right"><span class=badge>' + item.times+'</span></td>'

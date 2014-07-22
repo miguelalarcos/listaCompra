@@ -3,7 +3,7 @@
     {{#with lugar}}
         Localidad: <input type="text" formId="lugar" name="localidad" value="{{localidad}}">
         Provincia: <input type="text" formId="lugar" name="provincia" value="{{provincia}}">
-        <button class="guardar-lugar" formId="lugar">Guardar</button>
+        <button class="guardar-lugar black" formId="lugar">Guardar</button>
     {{/with}}
     <table>
         <tr>
@@ -17,11 +17,11 @@
             <!--<td>{{> xautocomplete formId=this.tag name='mails2' tags=this.tag call='dummy' strict='false'}}</td>-->
             <td><input type="checkbox" formId="{{tag}}" name="active" class="check" {{checked active}}></td>
             <td><input type="checkbox" formId="{{tag}}" name="private" class="check" {{checked private}}></td>
-            <td><button formId={{tag}} class="guardar-lista">Guardar</button></td>
+            <td><button formId={{tag}} class="black guardar-lista">Guardar</button></td>
         </tr>
         {{/each}}
     </table>
-    <input class="input-nueva-lista" type="text"><button class="append-nueva-lista">Nueva</button>
+    <input class="input-nueva-lista" type="text"><button class="append-nueva-lista pink">Nueva</button>
     <h3>Invited</h3>
     {{#each invited}}
         <span class="{{isBanned tag}}">{{tag}}</span> <span tag={{tag}} class="hand ban glyphicon glyphicon-ban-circle"></span>
@@ -30,5 +30,5 @@
     {{#with misTiendasValue}}
         {{> xautocomplete value=this.value formId='mis-tiendas' name='market' funcName='tiendas' tags='mis-tiendas' call='getMarkets' strict='true'}}
     {{/with}}
-    <button class="guardar-markets">Guardar</button>
+    <button class="guardar-markets black">Guardar</button>
 </template>
