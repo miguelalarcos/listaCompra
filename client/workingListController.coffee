@@ -45,6 +45,9 @@ Template.workingList.events
 Template.workingList.isVisibleButton = ->
     items = lista.find({stored: false, taken: true}).fetch()
     for it in items
+        private_ = tags.findOne(tag:it.tag).private
+        if private_ and not _.isEmpty(it.item)
+            continue
         if _.isEmpty(it.market) or _.isEmpty(it.item) or _.isNaN(parseFloat(it.price)) or _.isNaN(parseFloat(it.quantity))
             return false
     return true
