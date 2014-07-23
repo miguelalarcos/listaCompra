@@ -182,7 +182,13 @@ Meteor.methods
     getItems: (query)->
         check(query, String)
         mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
-        _item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
+        #_item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
+        tiendas = {market: {$in: mis_tiendas}}
+        lugar Meteor.users.findOne(Meteor.userId()).lugar
+        if lugar
+            clave = lugar.localidad
+        tiendas = {$or: [mis_tiendas, {market: $regex: '^.*'+clave+'.*$', options: 'i'}]}
+        _item_.find({tiendas, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
 
     dummy: ->
         []
@@ -209,6 +215,8 @@ Meteor.methods
     SetMarkets: (tag, value)->
         check(tag, String)
         check(value, String)
+        if value is null or value is undefined or value == ''
+            return
         lugar = Meteor.users.findOne(Meteor.userId()).lugar
         if not /.*\(.*\)/.test(value) and lugar and value != '' and value is not undefined
             value += ' ('+lugar.localidad + ', ' + lugar.provincia+')'

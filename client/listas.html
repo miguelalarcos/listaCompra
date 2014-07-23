@@ -29,7 +29,7 @@
 <template name="itemxtag">
     {{#each ../items this.tag}}
     <tr class="{{isTaken _id}}">
-        <td class="hand take h2" _id="{{_id}}">{{item}}</td>
+        <td class="hand take h2 big-item" _id="{{_id}}">{{item}}</td>
         <td class="hand item-quantity">
             {{#if edit_in_line_quantity _id ../../edit}}
                 <input type="text" _id={{_id}} class='quantity-inline number five_chars' value="{{quantity}}">

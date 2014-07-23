@@ -62,7 +62,6 @@ Template.listas.events
                     else
                         $(el).val("")
         $("[formId='"+tag+"'][name='item']>[nested]").focus()
-        console.log $("[formId='"+tag+"'][name='item']>[nested]").get(0)
 
     'click .remove-item': (e,t)->
         _id = $(e.target).attr('_id')
@@ -118,13 +117,11 @@ Session.set "EditInlineQuantity", null
 
 Template.itemxtag.events
     'click .item-price': (e,t)->
-        console.log this
         Session.set "EditInlinePrice", this._id
         Meteor.setTimeout ->
             $(e.target).children('input')[0].focus()
 
     'blur .item-price': (e,t)->
-        console.log 'blur'
         Session.set "EditInlinePrice", null
         Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find(".price-inline[_id='"+this._id+"']")).val())
 
