@@ -183,12 +183,16 @@ Meteor.methods
         check(query, String)
         mis_tiendas = Meteor.users.findOne(Meteor.userId()).myMarkets or []
         #_item_.find({market: {$in: mis_tiendas}, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
-        tiendas = {market: {$in: mis_tiendas}}
-        lugar Meteor.users.findOne(Meteor.userId()).lugar
+        lugar = Meteor.users.findOne(Meteor.userId()).lugar
+        full_query = {}
         if lugar
-            clave = lugar.localidad
-        tiendas = {$or: [mis_tiendas, {market: $regex: '^.*'+clave+'.*$', options: 'i'}]}
-        _item_.find({tiendas, price: {$exists: true}, item: { $regex: '^.*'+query+'.*$', $options: 'i' } }, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
+            full_query = {$or: [{market: {$regex: '^.*'+lugar.localidad+'.*$', $options: 'i'}}, {market: {$in: mis_tiendas}}]}
+        else
+            full_query = {market: {$in: mis_tiendas}}
+        full_query['price'] = {$exists: true}
+        full_query['item'] = { $regex: '^.*'+query+'.*$', $options: 'i' }
+        console.log full_query
+        _item_.find(full_query, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
 
     dummy: ->
         []

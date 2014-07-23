@@ -1,7 +1,11 @@
 _tags_ = @tags
 Session.set 'item-selected', null
+Session.set 'big-letters', true
 
 Template.listas.events
+    'click .letras-grandes': (e,t)->
+        value = Session.get('big-letters')
+        Session.set('big-letters', not value)
     'click .set-markets': (e,t)->
         tag = $(e.target).attr('tag')
         value = $("[formId='"+tag+"'][name='market']").val()
@@ -123,7 +127,9 @@ Template.itemxtag.events
 
     'blur .item-price': (e,t)->
         Session.set "EditInlinePrice", null
-        Meteor.call "GuardarPrecioItem", this._id, parseFloat($(t.find(".price-inline[_id='"+this._id+"']")).val())
+        value = $(t.find(".price-inline[_id='"+this._id+"']")).val()
+        if value != ''
+            Meteor.call "GuardarPrecioItem", this._id, parseFloat(value)
 
     'click .item-quantity': (e,t)->
         Session.set "EditInlineQuantity", this._id
@@ -132,7 +138,9 @@ Template.itemxtag.events
 
     'blur .item-quantity': (e,t)->
         Session.set "EditInlineQuantity", null
-        Meteor.call "GuardarQuantityItem", this._id, parseFloat($(t.find(".quantity-inline[_id='"+this._id+"']")).val())
+        value = $(t.find(".quantity-inline[_id='"+this._id+"']")).val()
+        if value != ''
+            Meteor.call "GuardarQuantityItem", this._id, parseFloat(value)
 
 
 
@@ -141,3 +149,9 @@ Template.itemxtag.edit_in_line_price = (_id, isEditable) ->
 
 Template.itemxtag.edit_in_line_quantity = (_id, isEditable) ->
     Session.get("EditInlineQuantity") == _id and isEditable
+
+Template.itemxtag.h2 = ->
+    if Session.get('big-letters') == true
+        'h2'
+    else
+        ''
