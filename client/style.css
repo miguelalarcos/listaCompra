@@ -55,6 +55,10 @@ td.big-item {
     width: 50%;
 }
 
+.lista-private {
+    background-color: darkseagreen;
+}
+
 .head-lista-invited {
     background-color: #E1AE21;
     border-radius: 10px;

@@ -9,10 +9,11 @@ class @WorkingListController extends @LoginController
     all = lista.find({stored: false}).fetch()
     all = _.groupBy(all, (x)->x.tag)
     #total por tag
-    ret = []
+    retorno = []
     invited = false
 
     for t in tas
+        console.log 't', t, t.tag, t.private, retorno
         #
         email = Meteor.users.findOne().emails[0].address
         if email in (t.invited or [])
@@ -25,16 +26,29 @@ class @WorkingListController extends @LoginController
             for item in all[t.tag]
                 if item.quantity and item.price
                     sum += item.quantity*item.price
-
-            ret.push {tag: t.tag, sum: sum, private: t.private, invited: invited}
+            console.log 'antes', retorno, t.tag
+            doc = {tag: t.tag, sum: sum, private: t.private, invited: invited}
+            console.log 'doc', doc
+            console.log retorno.push(_.clone(doc))
+            console.log 'ret.push', retorno, t.tag, doc
         else
-            ret.push {tag: t.tag, sum: 0, private: t.private, invited}
+            retorno.push({tag: t.tag, sum: 0, private: t.private, invited: invited})
+            console.log 'ret.pus2.', retorno, t.tag
 
+    console.log 'ret', retorno
     #return
     items: (key)->all[key]
-    tags: -> ret #(t.tag for t in tas)
+    tags: -> retorno
     edit: true
     messages: _messages_.find({})
+    color_row: (tag) ->
+        console.log retorno
+        elem = _.find(retorno, (x)->x.tag==tag)
+        console.log tag, elem
+        if elem.private
+            'lista-private'
+        else
+            ''
 
 Template.workingList.events
   'click .almacenar': (e,t)->

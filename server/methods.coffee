@@ -191,7 +191,6 @@ Meteor.methods
             full_query = {market: {$in: mis_tiendas}}
         full_query['price'] = {$exists: true}
         full_query['item'] = { $regex: '^.*'+query+'.*$', $options: 'i' }
-        console.log full_query
         _item_.find(full_query, {sort: {timestamp: -1, times: -1, price : +1}, limit: 20} ).fetch()
 
     dummy: ->
