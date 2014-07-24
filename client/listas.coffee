@@ -155,3 +155,9 @@ Template.itemxtag.h2 = ->
         'h2'
     else
         ''
+Template.itemxtag.color_row = (tag)->
+    it = _tags_.findOne(tag:tag)
+    if it and it.private
+        'lista-private'
+    else
+        ''

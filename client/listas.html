@@ -1,12 +1,12 @@
 <template name="listas">
     {{#each tags}}
-    <h4 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}
+    <h4 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}</h4>
     {{#if ../edit}}
         <button class="letras-grandes pink">&nbsp;&nbsp;Aa&nbsp;&nbsp;</button>
         <button tag="{{this.tag}}" class="seleccionar-todo black">Seleccionar todo</button>
         <button tag="{{this.tag}}" class="set-markets orange">Insertar mercado</button>
         {{this.sum}} €
-    {{/if}}</h4>
+    {{/if}}
     <table tag="{{this.tag}}">
         <tr>
             <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
@@ -28,7 +28,7 @@
 
 <template name="itemxtag">
     {{#each ../items this.tag}}
-    <tr class="{{isTaken _id}} {{../../color_row this.tag}}">
+    <tr class="{{isTaken _id}} {{color_row this.tag}}">
         <td class="multiline hand take {{h2}} big-item" _id="{{_id}}">{{item}}</td>
         <td class="hand item-quantity">
             {{#if edit_in_line_quantity _id ../../edit}}

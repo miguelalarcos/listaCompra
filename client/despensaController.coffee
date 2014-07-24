@@ -19,13 +19,6 @@ Template.despensa.events
   'click .vaciar': (e,t)->
       Meteor.call "vaciar"
 
-
-#Template.despensa.BConsumirVisible = ->
-#  if not _.isEmpty(lista.find({stored: true, taken:true}).fetch())
-#    ""
-#  else
-#    "invisible"
-
 Template.despensa.isTaken = (_id)->
   item = lista.findOne(_id)
   if item and item.taken

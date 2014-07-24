@@ -33,12 +33,7 @@ class @WorkingListController extends @LoginController
     tags: -> retorno
     edit: true
     messages: _messages_.find({})
-    color_row: (tag) ->
-        elem = _.find(retorno, (x)->x.tag==tag)
-        if elem.private
-            'lista-private'
-        else
-            ''
+
 
 Template.workingList.events
   'click .almacenar': (e,t)->
