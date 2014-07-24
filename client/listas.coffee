@@ -23,7 +23,7 @@ Template.listas.events
         it = Session.get('item-selected-tab')
         if it and it.tag == it.doc.tag + '#item'
             flag2=true
-        if e.keyCode == 13 and not flag1 and not flag2 and not $(e.target).attr('name') == 'market'
+        if e.keyCode == 13 and not flag1 and not flag2 and $(e.target).attr('name') != 'market'
             formId=$(e.target).attr('formId_nested')
             $(".guardar[formId='"+formId+"']").click()
 
