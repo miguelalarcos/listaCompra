@@ -1,13 +1,12 @@
 <template name="listas">
     {{#each tags}}
-    <h2 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}</h2>
+    <h4 tag="{{this.tag}}" class="{{head_lista}}">{{this.tag}}
     {{#if ../edit}}
         <button class="letras-grandes pink">&nbsp;&nbsp;Aa&nbsp;&nbsp;</button>
         <button tag="{{this.tag}}" class="seleccionar-todo black">Seleccionar todo</button>
         <button tag="{{this.tag}}" class="set-markets orange">Insertar mercado</button>
-
-        <h2>{{this.sum}} €</h2>
-    {{/if}}
+        {{this.sum}} €
+    {{/if}}</h4>
     <table tag="{{this.tag}}">
         <tr>
             <td>Item</td><td>Cantidad</td><td>Precio</td><td>Mercado</td>
