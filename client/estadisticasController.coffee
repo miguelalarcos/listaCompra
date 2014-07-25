@@ -36,10 +36,13 @@ estadisticas_year = (historico) ->
         if _.isNaN(h.year) or _.isNaN(h.price) or _.isNaN(h.quantity)
             continue
 
+        console.log h.year, h.price, h.quantity
         it = _hist_year_[h.year]
         if it
+            console.log 'entro en +='
             _hist_year_[h.year] += h.price*h.quantity
         else
+            console.log 'entro en ='
             _hist_year_[h.year] = h.price*h.quantity
 
     return _.sortBy(_.pairs(_hist_year_), (x)->x[0])
