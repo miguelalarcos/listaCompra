@@ -33,10 +33,11 @@ estadisticas_year = (historico) ->
     for h in historico
         h.fecha = moment.unix(h.timestamp)
         h.year = h.fecha.year()
-        if _.isNaN(h.year) or _.isNaN(h.price) or _.isNaN(h.quantity)
+        if _.isNaN(h.year) or _.isNaN(h.price*h.quantity)
             continue
 
         console.log h.year, h.price, h.quantity
+        console.log _hist_year_
         it = _hist_year_[h.year]
         if it
             console.log 'entro en +='
