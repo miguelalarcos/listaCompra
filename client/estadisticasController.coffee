@@ -36,6 +36,7 @@ estadisticas_year = (historico) ->
         if _.isNaN(h.year)
             continue
 
+        console.log h.price, h.quantity, h.price*h.quantity
         it = _hist_year_[h.year]
         if it
             _hist_year_[h.year] += h.price*h.quantity
