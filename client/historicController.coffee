@@ -7,3 +7,6 @@ class @HistoricController extends @LoginController
         for h in hist
             h.fecha = moment.unix(h.timestamp).format('DD-MM-YYYY')
         historic : hist
+
+Template.historic.producto = (a,b)->
+    a*b
