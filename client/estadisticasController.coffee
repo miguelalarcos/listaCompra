@@ -12,7 +12,7 @@ estadisticas_month = (historico, year) ->
     for h in historico
         h.fecha = moment.unix(h.timestamp)
         h.year = h.fecha.year()
-        if _.isNaN(h.year) or parseInt(year) != h.year
+        if _.isNaN(h.year) or parseInt(year) != h.year or _.isNaN(h.price*h.quantity)
             continue
         h.month = h.fecha.month()
         fecha = h.fecha.startOf('month').unix()
@@ -36,14 +36,10 @@ estadisticas_year = (historico) ->
         if _.isNaN(h.year) or _.isNaN(h.price*h.quantity)
             continue
 
-        console.log h.year, h.price, h.quantity
-        console.log _hist_year_
         it = _hist_year_[h.year]
         if it
-            console.log 'entro en +='
             _hist_year_[h.year] += h.price*h.quantity
         else
-            console.log 'entro en ='
             _hist_year_[h.year] = h.price*h.quantity
 
     return _.sortBy(_.pairs(_hist_year_), (x)->x[0])
